@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import type { ParkingSession } from "@/types";
+import { ParkingSessionStatus, type ParkingSession } from "@/types";
 import { useAuthStore } from "@/stores/auth.store";
 
 interface CheckOutModalProps {
@@ -41,7 +41,7 @@ export function CheckOutModal({
       return parkingSessionsService.complete(session.id, {
         checkOutTime: new Date().toISOString(),
         checkOutUserId: user.id,
-        status: "COMPLETED",
+        status: ParkingSessionStatus.COMPLETED,
       });
     },
     onSuccess: () => {
@@ -112,7 +112,9 @@ export function CheckOutModal({
             <User className="h-5 w-5 text-muted-foreground" />
             <div className="flex-1">
               <p className="text-sm font-medium">Usuario de Entrada</p>
-              <p className="text-sm">{session.checkInUser?.name || "N/A"}</p>
+              <p className="text-sm">
+                {session.checkInUser?.firstName || "N/A"}
+              </p>
             </div>
           </div>
 

@@ -79,8 +79,8 @@ export function SessionsTable({ data, onPageChange }: SessionsTableProps) {
                   <TableCell>
                     {session.parkingSpace?.sector?.name || '-'}
                   </TableCell>
-                  <TableCell>{session.checkInUser?.name || '-'}</TableCell>
-                  <TableCell>{session.checkOutUser?.name || '-'}</TableCell>
+                  <TableCell>{session.checkInUser?.firstName || '-'}</TableCell>
+                  <TableCell>{session.checkOutUser?.firstName || '-'}</TableCell>
                   <TableCell className="text-sm">
                     {formatDate(session.checkInTime)}
                   </TableCell>

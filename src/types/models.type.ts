@@ -75,7 +75,7 @@ export type ParkingSession = PrismaModel & {
 
 export type CreateParkingSessionRequest = Pick<
   ParkingSession,
-  "vehicleId" | "parkingSpaceId" | "checkInTime" | "checkInUserId"
+  "vehicleId" | "parkingSpaceId" | "checkInUserId"
 >;
 
 export type CompleteParkingSessionRequest = Pick<
