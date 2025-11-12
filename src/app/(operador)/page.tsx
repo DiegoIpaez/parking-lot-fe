@@ -1,11 +1,11 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { sectorsService } from "@/services/sectors.service";
-import { ProtectedRoute } from "@/components/protected-route";
 import { Topbar } from "@/components/topbar";
+import { ProtectedRoute } from "@/components/protected-route";
 import { SectorCard } from "@/components/operator/sector-card";
-import { Loader2 } from "lucide-react";
 
 function DashboardContent() {
   const queryClient = useQueryClient();
