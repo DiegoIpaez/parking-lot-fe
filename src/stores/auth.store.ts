@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User } from '@/types';
+import { clearAuthCookieServer } from '@/app/actions/auth.action';
 
 interface AuthState {
   user: User | null;
@@ -17,15 +18,10 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       isAuthenticated: false,
       login: (token, user) => {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('token', token);
-        }
         set({ token, user, isAuthenticated: true });
       },
       logout: () => {
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('token');
-        }
+        clearAuthCookieServer();
         set({ token: null, user: null, isAuthenticated: false });
       },
     }),

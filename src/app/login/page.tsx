@@ -3,8 +3,7 @@
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
-import { ParkingSquare, Loader2 } from 'lucide-react';
+import { ParkingSquare } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { authService } from '@/services/auth.service';
 import { Button } from '@/components/ui/button';
@@ -26,6 +25,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useAuthStore } from '@/stores/auth.store';
+import { setAuthCookieServer } from '../actions/auth.action';
 
 const loginSchema = z.object({
   email: z.string().email('Email inválido'),
@@ -47,27 +47,26 @@ export default function LoginPage() {
     },
   });
 
-  const loginMutation = useMutation({
-    mutationFn: authService.login,
-    onSuccess: (data) => {
+  const onSubmit = async (values: LoginFormValues) => {
+    try {
+      const data = await authService.login(values);
+
+      await setAuthCookieServer(data.access_token);
+
       login(data.access_token, data.user);
       toast({
         title: 'Inicio de sesión exitoso',
         description: `Bienvenido, ${data.user.firstName} ${data.user.lastName}!`,
       });
+
       router.push('/');
-    },
-    onError: (error: any) => {
+    } catch (error: any) {
       toast({
         title: 'Error de autenticación',
         description: error.response?.data?.message || 'Credenciales inválidas',
         variant: 'destructive',
       });
-    },
-  });
-
-  const onSubmit = (values: LoginFormValues) => {
-    loginMutation.mutate(values);
+    }
   };
 
   return (
@@ -100,7 +99,6 @@ export default function LoginPage() {
                         type="email"
                         placeholder="tu@email.com"
                         {...field}
-                        disabled={loginMutation.isPending}
                       />
                     </FormControl>
                     <FormMessage />
@@ -118,21 +116,13 @@ export default function LoginPage() {
                         type="password"
                         placeholder="••••••••"
                         {...field}
-                        disabled={loginMutation.isPending}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={loginMutation.isPending}
-              >
-                {loginMutation.isPending && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
+              <Button type="submit" className="w-full">
                 Iniciar Sesión
               </Button>
             </form>
