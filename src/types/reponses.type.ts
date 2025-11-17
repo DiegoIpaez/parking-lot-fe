@@ -1,0 +1,28 @@
+import { User } from "./models.type";
+
+export type PaginatedResponse<T> = {
+  data: T[];
+  currentPage: number;
+  recordsPerPage: number;
+  totalRecords: number;
+  totalPages: number;
+  hasNextPage: boolean;
+};
+
+export type AllDataResponse<T> = {
+  data: T[];
+  totalRecords: number;
+};
+
+export type GetResponse<T> = PaginatedResponse<T> | AllDataResponse<T>;
+
+export type LoginResponse = {
+  access_token: string;
+  user: User;
+};
+
+export type PaginationParams = {
+  page?: number;
+  limit?: number;
+  showAll?: boolean;
+};
