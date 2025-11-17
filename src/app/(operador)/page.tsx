@@ -4,10 +4,9 @@ import { Loader2 } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { sectorsService } from "@/services/sectors.service";
 import { Topbar } from "@/components/topbar";
-import { ProtectedRoute } from "@/components/protected-route";
 import { SectorCard } from "@/components/operator/sector-card";
 
-function DashboardContent() {
+export default function OperatorDashboard() {
   const queryClient = useQueryClient();
 
   const { data = [], isLoading } = useQuery({
@@ -42,13 +41,5 @@ function DashboardContent() {
         )}
       </main>
     </div>
-  );
-}
-
-export default function OperatorDashboard() {
-  return (
-    <ProtectedRoute allowedRoles={["OPERATOR", "ADMIN"]}>
-      <DashboardContent />
-    </ProtectedRoute>
   );
 }

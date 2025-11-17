@@ -38,7 +38,9 @@ export function Topbar({ onRefresh }: TopbarProps) {
 
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <p className="text-sm font-medium">{user?.firstName} {user?.lastName}</p>
+              <p className="text-sm font-medium">
+                {user?.firstName} {user?.lastName}
+              </p>
               <Badge
                 variant={
                   user?.role === UserRole.ADMIN ? "default" : "secondary"
@@ -52,7 +54,7 @@ export function Topbar({ onRefresh }: TopbarProps) {
             <Button
               variant="ghost"
               size="icon"
-              onClick={handleLogout}
+              onClick={() => handleLogout()}
               title="Cerrar sesión"
             >
               <LogOut className="h-5 w-5" />
