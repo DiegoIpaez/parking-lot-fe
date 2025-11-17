@@ -64,10 +64,10 @@ export default function LoginPage() {
       });
 
       router.push('/');
-    } catch (error: any) {
+    } catch {
       toast({
         title: 'Error de autenticación',
-        description: error.response?.data?.message || 'Credenciales inválidas',
+        description: 'Credenciales inválidas',
         variant: 'destructive',
       });
     } finally {

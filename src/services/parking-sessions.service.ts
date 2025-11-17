@@ -11,7 +11,7 @@ export const parkingSessionsService = {
   getAll: async (
     filters?: ParkingSessionFilters
   ): Promise<GetResponse<ParkingSession>> => {
-    const params: Record<string, any> = {};
+    const params: ParkingSessionFilters = {};
 
     if (filters?.page) params.page = filters.page;
     if (filters?.limit) params.limit = filters.limit;

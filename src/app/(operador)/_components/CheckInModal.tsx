@@ -1,6 +1,5 @@
 'use client';
 
-import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -80,10 +79,10 @@ export function CheckInModal({
       onOpenChange(false);
       onSuccess();
     },
-    onError: (error: any) => {
+    onError: () => {
       toast({
         title: 'Error al registrar entrada',
-        description: error.response?.data?.message || 'Ocurrió un error',
+        description: 'Ocurrió un error',
         variant: 'destructive',
       });
     },

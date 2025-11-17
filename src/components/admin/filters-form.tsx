@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { FilterX } from 'lucide-react';
-import type { ParkingSession, ParkingSessionFilters, ParkingSessionStatus } from '@/types';
+import type { ParkingSessionFilters, ParkingSessionStatus } from '@/types';
 import ButtonCs from '../ui/custom/ButtonCs';
 
 const filtersSchema = z.object({
@@ -53,7 +53,8 @@ export function FiltersForm({ onFiltersChange }: FiltersFormProps) {
 
     if (values.startDate) filters.startDate = values.startDate;
     if (values.endDate) filters.endDate = values.endDate;
-    if (values.vehicleLicensePlate) filters.vehicleLicensePlate = values.vehicleLicensePlate;
+    if (values.vehicleLicensePlate)
+      filters.vehicleLicensePlate = values.vehicleLicensePlate;
     if (values.status) filters.status = values.status as ParkingSessionStatus;
 
     onFiltersChange(filters);

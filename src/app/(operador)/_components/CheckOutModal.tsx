@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { es } from 'date-fns/locale';
 import { formatDistanceToNow } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Car, Clock, User } from 'lucide-react';
+import { Car, Clock, User } from 'lucide-react';
 import { parkingSessionsService } from '@/services/parking-sessions.service';
 import {
   Dialog,
@@ -52,10 +52,10 @@ export function CheckOutModal({
       onOpenChange(false);
       onSuccess();
     },
-    onError: (error: any) => {
+    onError: () => {
       toast({
         title: 'Error al registrar salida',
-        description: error.response?.data?.message || 'Ocurrió un error',
+        description: 'Ocurrió un error',
         variant: 'destructive',
       });
     },
