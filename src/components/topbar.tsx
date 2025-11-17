@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { LogOut, RefreshCw, ParkingSquare } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { UserRole } from "@/types";
 import { useAuthStore } from "@/stores/auth.store";
+import ButtonCs from "./ui/custom/ButtonCs";
 
 interface TopbarProps {
   onRefresh?: () => void;
@@ -27,15 +27,13 @@ export function Topbar({ onRefresh }: TopbarProps) {
           <ParkingSquare className="h-6 w-6 text-primary" />
           <h1 className="text-xl font-semibold">Sistema de Estacionamiento</h1>
         </div>
-
         <div className="flex items-center gap-4">
           {onRefresh && (
-            <Button variant="outline" size="sm" onClick={onRefresh}>
+            <ButtonCs variant="outline" size="sm" onClick={onRefresh}>
               <RefreshCw className="h-4 w-4 mr-2" />
               Actualizar
-            </Button>
+            </ButtonCs>
           )}
-
           <div className="flex items-center gap-3">
             <div className="text-right">
               <p className="text-sm font-medium">
@@ -50,15 +48,14 @@ export function Topbar({ onRefresh }: TopbarProps) {
                 {user?.role}
               </Badge>
             </div>
-
-            <Button
+            <ButtonCs
               variant="ghost"
               size="icon"
               onClick={() => handleLogout()}
               title="Cerrar sesión"
             >
               <LogOut className="h-5 w-5" />
-            </Button>
+            </ButtonCs>
           </div>
         </div>
       </div>

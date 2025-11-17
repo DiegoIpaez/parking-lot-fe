@@ -9,9 +9,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import type { ParkingSession, PaginatedResponse } from '@/types';
+import ButtonCs from '../ui/custom/ButtonCs';
 
 interface SessionsTableProps {
   data: PaginatedResponse<ParkingSession>;
@@ -117,38 +117,38 @@ export function SessionsTable({ data, onPageChange }: SessionsTableProps) {
           </p>
 
           <div className="flex items-center gap-2">
-            <Button
+            <ButtonCs
               variant="outline"
               size="icon"
               onClick={() => onPageChange(1)}
               disabled={data.currentPage === 1}
             >
               <ChevronsLeft className="h-4 w-4" />
-            </Button>
-            <Button
+            </ButtonCs>
+            <ButtonCs
               variant="outline"
               size="icon"
               onClick={() => onPageChange(data.currentPage - 1)}
               disabled={data.currentPage === 1}
             >
               <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
+            </ButtonCs>
+            <ButtonCs
               variant="outline"
               size="icon"
               onClick={() => onPageChange(data.currentPage + 1)}
               disabled={!data.hasNextPage}
             >
               <ChevronRight className="h-4 w-4" />
-            </Button>
-            <Button
+            </ButtonCs>
+            <ButtonCs
               variant="outline"
               size="icon"
               onClick={() => onPageChange(data.totalPages)}
               disabled={!data.hasNextPage}
             >
               <ChevronsRight className="h-4 w-4" />
-            </Button>
+            </ButtonCs>
           </div>
         </div>
       )}

@@ -29,10 +29,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import type { ParkingSpace } from '@/types';
 import { useAuthStore } from '@/stores/auth.store';
+import ButtonCs from '../ui/custom/ButtonCs';
 
 const checkInSchema = z.object({
   vehicleId: z.string().min(1, 'Selecciona un vehículo'),
@@ -108,7 +108,6 @@ export function CheckInModal({
             Espacio {parkingSpace.number} - {parkingSpace.sector?.name}
           </DialogDescription>
         </DialogHeader>
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -134,7 +133,8 @@ export function CheckInModal({
                           value={vehicle.id.toString()}
                         >
                           {vehicle.licensePlate}
-                          {vehicle.vehicleType && ` - ${vehicle.vehicleType.name}`}
+                          {vehicle.vehicleType &&
+                            ` - ${vehicle.vehicleType.name}`}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -143,22 +143,22 @@ export function CheckInModal({
                 </FormItem>
               )}
             />
-
             <div className="flex justify-end gap-2">
-              <Button
+              <ButtonCs
                 type="button"
                 variant="outline"
                 onClick={() => onOpenChange(false)}
                 disabled={checkInMutation.isPending}
               >
                 Cancelar
-              </Button>
-              <Button type="submit" disabled={checkInMutation.isPending}>
-                {checkInMutation.isPending && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
+              </ButtonCs>
+              <ButtonCs
+                type="submit"
+                disabled={checkInMutation.isPending}
+                isLoading={checkInMutation.isPending}
+              >
                 Registrar
-              </Button>
+              </ButtonCs>
             </div>
           </form>
         </Form>

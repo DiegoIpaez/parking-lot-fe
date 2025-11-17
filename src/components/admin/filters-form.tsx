@@ -3,7 +3,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -21,6 +20,7 @@ import {
 } from '@/components/ui/select';
 import { FilterX } from 'lucide-react';
 import type { ParkingSession, ParkingSessionFilters, ParkingSessionStatus } from '@/types';
+import ButtonCs from '../ui/custom/ButtonCs';
 
 const filtersSchema = z.object({
   startDate: z.string().optional(),
@@ -139,11 +139,11 @@ export function FiltersForm({ onFiltersChange }: FiltersFormProps) {
         </div>
 
         <div className="flex gap-2">
-          <Button type="submit">Aplicar Filtros</Button>
-          <Button type="button" variant="outline" onClick={handleClear}>
+          <ButtonCs type="submit">Aplicar Filtros</ButtonCs>
+          <ButtonCs type="button" variant="outline" onClick={handleClear}>
             <FilterX className="h-4 w-4 mr-2" />
             Limpiar
-          </Button>
+          </ButtonCs>
         </div>
       </form>
     </Form>
