@@ -8,7 +8,7 @@ import type {
   ParkingSession,
   ParkingSessionFilters,
 } from '@/types';
-import { Topbar } from '@/components/topbar';
+import { Header } from '@/components/Header';
 import SpinnerCs from '@/components/ui/custom/SpinnerCs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FiltersForm } from './_components/FiltersForm';
@@ -40,7 +40,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Topbar />
+      <Header />
       <div className="container mx-auto px-4 py-8">
         <Card>
           <CardHeader>
