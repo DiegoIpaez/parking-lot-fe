@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/select';
 import { FilterX } from 'lucide-react';
 import type { ParkingSessionFilters, ParkingSessionStatus } from '@/types';
-import ButtonCs from '../ui/custom/ButtonCs';
+import ButtonCs from '@/components/ui/custom/ButtonCs';
 
 const filtersSchema = z.object({
   startDate: z.string().optional(),

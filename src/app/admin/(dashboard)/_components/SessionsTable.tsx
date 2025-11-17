@@ -1,5 +1,9 @@
 'use client';
 
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import type { ParkingSession, PaginatedResponse } from '@/types';
+import { Badge } from '@/components/ui/badge';
+import ButtonCs from '@/components/ui/custom/ButtonCs';
 import {
   Table,
   TableBody,
@@ -8,10 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
-import type { ParkingSession, PaginatedResponse } from '@/types';
-import ButtonCs from '../ui/custom/ButtonCs';
 
 interface SessionsTableProps {
   data: PaginatedResponse<ParkingSession>;
