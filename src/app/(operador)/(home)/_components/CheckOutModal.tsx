@@ -39,9 +39,7 @@ export function CheckOutModal({
       if (!user) throw new Error('Usuario no autenticado');
 
       return parkingSessionsService.complete(session.id, {
-        checkOutTime: new Date().toISOString(),
         checkOutUserId: user.id,
-        status: ParkingSessionStatus.COMPLETED,
       });
     },
     onSuccess: () => {

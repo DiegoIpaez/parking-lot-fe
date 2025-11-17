@@ -1,4 +1,4 @@
-import { PaginationParams } from "./reponses.type";
+import { PaginationParams } from './reponses.type';
 
 type PrismaModel = {
   id: number;
@@ -7,8 +7,8 @@ type PrismaModel = {
 };
 
 export enum UserRole {
-  ADMIN = "ADMIN",
-  OPERATOR = "OPERATOR",
+  ADMIN = 'ADMIN',
+  OPERATOR = 'OPERATOR',
 }
 
 export type User = PrismaModel & {
@@ -41,8 +41,8 @@ export type Sector = PrismaModel & {
 };
 
 export enum ParkingSpaceStatus {
-  AVAILABLE = "AVAILABLE",
-  OCCUPIED = "OCCUPIED",
+  AVAILABLE = 'AVAILABLE',
+  OCCUPIED = 'OCCUPIED',
 }
 
 export type ParkingSpace = PrismaModel & {
@@ -53,8 +53,8 @@ export type ParkingSpace = PrismaModel & {
 };
 
 export enum ParkingSessionStatus {
-  ACTIVE = "ACTIVE",
-  COMPLETED = "COMPLETED",
+  ACTIVE = 'ACTIVE',
+  COMPLETED = 'COMPLETED',
 }
 
 export type ParkingSession = PrismaModel & {
@@ -75,15 +75,13 @@ export type ParkingSession = PrismaModel & {
 
 export type CreateParkingSessionRequest = Pick<
   ParkingSession,
-  "vehicleId" | "parkingSpaceId" | "checkInUserId"
+  'vehicleId' | 'parkingSpaceId' | 'checkInUserId'
 >;
 
 export type CompleteParkingSessionRequest = Pick<
   ParkingSession,
-  "checkOutTime" | "checkOutUserId"
-> & {
-  status: ParkingSessionStatus.COMPLETED;
-};
+  'checkOutUserId'
+>;
 
 export type ParkingSessionFilters = PaginationParams & {
   startDate?: string;
