@@ -1,12 +1,12 @@
 'use client';
 
 import * as z from 'zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { ParkingSquare } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { authService } from '@/services/auth.service';
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -26,6 +26,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useAuthStore } from '@/stores/auth.store';
 import { setAuthCookieServer } from '../actions/auth.action';
+import ButtonCs from '@/components/ui/custom/ButtonCs';
 
 const loginSchema = z.object({
   email: z.string().email('Email inválido'),
@@ -36,8 +37,10 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuthStore();
   const { toast } = useToast();
+  const { login } = useAuthStore();
+
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -49,6 +52,7 @@ export default function LoginPage() {
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
+      setIsSubmit(true);
       const data = await authService.login(values);
 
       await setAuthCookieServer(data.access_token);
@@ -60,12 +64,14 @@ export default function LoginPage() {
       });
 
       router.push('/');
-    } catch (error: any) {
+    } catch {
       toast({
         title: 'Error de autenticación',
-        description: error.response?.data?.message || 'Credenciales inválidas',
+        description: 'Credenciales inválidas',
         variant: 'destructive',
       });
+    } finally {
+      setIsSubmit(false);
     }
   };
 
@@ -122,9 +128,9 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
+              <ButtonCs type="submit" className="w-full" isLoading={isSubmit}>
                 Iniciar Sesión
-              </Button>
+              </ButtonCs>
             </form>
           </Form>
         </CardContent>

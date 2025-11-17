@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import ButtonCs from '@/components/ui/custom/ButtonCs';
 
 interface ErrorBoundaryProps {
   error: Error & { digest?: string };
@@ -21,19 +21,19 @@ export default function ErrorPage({ error, reset }: ErrorBoundaryProps) {
         estamos trabajando para solucionarlo.
       </p>
       <div className="flex gap-4 mt-6">
-        <Button
+        <ButtonCs
           className="shadow-md hover:shadow-lg transition-all duration-200"
           onClick={reset}
         >
           Intentar nuevamente
-        </Button>
-        <Button
+        </ButtonCs>
+        <ButtonCs
           variant="outline"
           className="bg-gray-700"
           onClick={() => setShowDetails((prev) => !prev)}
         >
-          {showDetails ? "Ocultar detalles" : "Ver detalles"}
-        </Button>
+          {showDetails ? 'Ocultar detalles' : 'Ver detalles'}
+        </ButtonCs>
       </div>
       {showDetails && (
         <div className="mt-6 w-full max-w-2xl max-h-[40vh] overflow-y-scroll bg-gray-100 text-left rounded-lg p-4 overflow-auto border border-gray-300">

@@ -1,6 +1,6 @@
 import { jwtVerify } from 'jose';
 import { NextRequest, NextResponse } from 'next/server';
-import { CONFIG } from './constants';
+import { CONFIG, COOKIES } from './constants';
 
 export async function verifyToken(token: string) {
   try {
@@ -14,7 +14,7 @@ export async function verifyToken(token: string) {
 
 export async function proxy(req: NextRequest) {
   try {
-    const token = req.cookies.get('access_token');
+    const token = req.cookies.get(COOKIES.ACCESS_TOKEN);
 
     if (!token) throw new Error('Token no proporcionado');
     const isValidToken = await verifyToken(token.value);

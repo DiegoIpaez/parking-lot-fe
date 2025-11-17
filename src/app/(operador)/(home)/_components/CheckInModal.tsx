@@ -1,6 +1,5 @@
 'use client';
 
-import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -29,10 +28,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import type { ParkingSpace } from '@/types';
 import { useAuthStore } from '@/stores/auth.store';
+import ButtonCs from '@/components/ui/custom/ButtonCs';
 
 const checkInSchema = z.object({
   vehicleId: z.string().min(1, 'Selecciona un vehículo'),
@@ -80,10 +79,10 @@ export function CheckInModal({
       onOpenChange(false);
       onSuccess();
     },
-    onError: (error: any) => {
+    onError: () => {
       toast({
         title: 'Error al registrar entrada',
-        description: error.response?.data?.message || 'Ocurrió un error',
+        description: 'Ocurrió un error',
         variant: 'destructive',
       });
     },
@@ -108,7 +107,6 @@ export function CheckInModal({
             Espacio {parkingSpace.number} - {parkingSpace.sector?.name}
           </DialogDescription>
         </DialogHeader>
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -134,7 +132,8 @@ export function CheckInModal({
                           value={vehicle.id.toString()}
                         >
                           {vehicle.licensePlate}
-                          {vehicle.vehicleType && ` - ${vehicle.vehicleType.name}`}
+                          {vehicle.vehicleType &&
+                            ` - ${vehicle.vehicleType.name}`}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -143,22 +142,22 @@ export function CheckInModal({
                 </FormItem>
               )}
             />
-
             <div className="flex justify-end gap-2">
-              <Button
+              <ButtonCs
                 type="button"
                 variant="outline"
                 onClick={() => onOpenChange(false)}
                 disabled={checkInMutation.isPending}
               >
                 Cancelar
-              </Button>
-              <Button type="submit" disabled={checkInMutation.isPending}>
-                {checkInMutation.isPending && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
+              </ButtonCs>
+              <ButtonCs
+                type="submit"
+                disabled={checkInMutation.isPending}
+                isLoading={checkInMutation.isPending}
+              >
                 Registrar
-              </Button>
+              </ButtonCs>
             </div>
           </form>
         </Form>

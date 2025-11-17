@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useMutation } from "@tanstack/react-query";
-import { es } from "date-fns/locale";
-import { formatDistanceToNow } from "date-fns";
-import { useToast } from "@/hooks/use-toast";
-import { Loader2, Car, Clock, User } from "lucide-react";
-import { parkingSessionsService } from "@/services/parking-sessions.service";
+import { useMutation } from '@tanstack/react-query';
+import { es } from 'date-fns/locale';
+import { formatDistanceToNow } from 'date-fns';
+import { useToast } from '@/hooks/use-toast';
+import { Car, Clock, User } from 'lucide-react';
+import { parkingSessionsService } from '@/services/parking-sessions.service';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ParkingSessionStatus, type ParkingSession } from "@/types";
-import { useAuthStore } from "@/stores/auth.store";
+} from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
+import { ParkingSessionStatus, type ParkingSession } from '@/types';
+import { useAuthStore } from '@/stores/auth.store';
+import ButtonCs from '@/components/ui/custom/ButtonCs';
 
 interface CheckOutModalProps {
   open: boolean;
@@ -36,7 +36,7 @@ export function CheckOutModal({
 
   const checkOutMutation = useMutation({
     mutationFn: () => {
-      if (!user) throw new Error("Usuario no autenticado");
+      if (!user) throw new Error('Usuario no autenticado');
 
       return parkingSessionsService.complete(session.id, {
         checkOutTime: new Date().toISOString(),
@@ -46,17 +46,17 @@ export function CheckOutModal({
     },
     onSuccess: () => {
       toast({
-        title: "Salida registrada",
+        title: 'Salida registrada',
         description: `Sesión finalizada correctamente`,
       });
       onOpenChange(false);
       onSuccess();
     },
-    onError: (error: any) => {
+    onError: () => {
       toast({
-        title: "Error al registrar salida",
-        description: error.response?.data?.message || "Ocurrió un error",
-        variant: "destructive",
+        title: 'Error al registrar salida',
+        description: 'Ocurrió un error',
+        variant: 'destructive',
       });
     },
   });
@@ -71,11 +71,10 @@ export function CheckOutModal({
         <DialogHeader>
           <DialogTitle>Información de Sesión</DialogTitle>
           <DialogDescription>
-            Espacio {session.parkingSpace?.number} -{" "}
+            Espacio {session.parkingSpace?.number} -{' '}
             {session.parkingSpace?.sector?.name}
           </DialogDescription>
         </DialogHeader>
-
         <div className="space-y-4">
           <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
             <Car className="h-5 w-5 text-muted-foreground" />
@@ -91,61 +90,61 @@ export function CheckOutModal({
               )}
             </div>
           </div>
-
           <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
             <Clock className="h-5 w-5 text-muted-foreground" />
             <div className="flex-1">
               <p className="text-sm font-medium">Hora de Entrada</p>
               <p className="text-sm">
-                {new Date(session.checkInTime).toLocaleString("es-ES")}
+                {new Date(session.checkInTime).toLocaleString('es-ES')}
               </p>
               <p className="text-xs text-muted-foreground mt-1">
-                Hace{" "}
+                Hace{' '}
                 {formatDistanceToNow(new Date(session.checkInTime), {
                   locale: es,
                 })}
               </p>
             </div>
           </div>
-
           <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
             <User className="h-5 w-5 text-muted-foreground" />
             <div className="flex-1">
               <p className="text-sm font-medium">Usuario de Entrada</p>
               <p className="text-sm">
-                {session.checkInUser?.firstName || "N/A"}
+                {session?.checkInUser?.firstName || 'N/A'}
               </p>
             </div>
           </div>
-
           <div className="flex items-center justify-between p-3 bg-primary/10 rounded-lg">
             <span className="text-sm font-medium">Estado</span>
             <Badge
-              variant={session.status === "ACTIVE" ? "default" : "secondary"}
+              variant={
+                session?.status === ParkingSessionStatus.ACTIVE
+                  ? 'default'
+                  : 'secondary'
+              }
             >
-              {session.status === "ACTIVE" ? "ACTIVO" : "COMPLETADO"}
+              {session?.status === ParkingSessionStatus.ACTIVE
+                ? 'ACTIVO'
+                : 'COMPLETADO'}
             </Badge>
           </div>
         </div>
-
         <div className="flex justify-end gap-2 mt-4">
-          <Button
+          <ButtonCs
             variant="outline"
             onClick={() => onOpenChange(false)}
             disabled={checkOutMutation.isPending}
           >
             Cerrar
-          </Button>
-          {session.status === "ACTIVE" && (
-            <Button
+          </ButtonCs>
+          {session?.status === ParkingSessionStatus.ACTIVE && (
+            <ButtonCs
               onClick={handleCheckOut}
               disabled={checkOutMutation.isPending}
+              isLoading={checkOutMutation.isPending}
             >
-              {checkOutMutation.isPending && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
               Finalizar Sesión
-            </Button>
+            </ButtonCs>
           )}
         </div>
       </DialogContent>
