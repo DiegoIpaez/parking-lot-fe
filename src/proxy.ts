@@ -1,12 +1,10 @@
 import { jwtVerify } from 'jose';
 import { NextRequest, NextResponse } from 'next/server';
+import { CONFIG } from './constants';
 
 export async function verifyToken(token: string) {
   try {
-    const secret = new TextEncoder().encode(
-      process.env.JWT_SECRET || 'tu-secreto-super-seguro'
-    );
-
+    const secret = new TextEncoder().encode(CONFIG.JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
     return payload;
   } catch {
