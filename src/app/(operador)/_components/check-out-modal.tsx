@@ -16,7 +16,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { ParkingSessionStatus, type ParkingSession } from '@/types';
 import { useAuthStore } from '@/stores/auth.store';
-import ButtonCs from '../ui/custom/ButtonCs';
+import ButtonCs from '@/components/ui/custom/ButtonCs';
 
 interface CheckOutModalProps {
   open: boolean;

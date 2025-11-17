@@ -32,7 +32,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import type { ParkingSpace } from '@/types';
 import { useAuthStore } from '@/stores/auth.store';
-import ButtonCs from '../ui/custom/ButtonCs';
+import ButtonCs from '@/components/ui/custom/ButtonCs';
 
 const checkInSchema = z.object({
   vehicleId: z.string().min(1, 'Selecciona un vehículo'),
