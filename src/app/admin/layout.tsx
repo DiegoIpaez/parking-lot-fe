@@ -27,7 +27,7 @@ export default function AdminLayout({
       >
         <AdminSidebar />
         <SidebarInset>
-          <div className="flex flex-1 flex-col">
+          <div className="flex flex-1 flex-col min-h-screen bg-background">
             <header className="flex h-14 items-center border-b px-4 lg:px-6">
               <SidebarTrigger className="cursor-pointer" />
               <h2 className="ml-4 text-base font-medium">Admin Panel</h2>
