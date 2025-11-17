@@ -84,8 +84,8 @@ export type CompleteParkingSessionRequest = Pick<
 >;
 
 export type ParkingSessionFilters = PaginationParams & {
-  startDate?: string;
-  endDate?: string;
-  vehicleLicensePlate?: string;
-  status?: ParkingSessionStatus;
+  checkInTime?: string | null | Date;
+  checkOutTime?: string | null | Date;
+  vehicleLicensePlate?: string | null;
+  status?: ParkingSessionStatus | null;
 };

@@ -1,11 +1,11 @@
-import axios from "@/lib/axios";
+import axios from '@/lib/axios';
 import type {
   ParkingSession,
   CreateParkingSessionRequest,
   CompleteParkingSessionRequest,
   ParkingSessionFilters,
   GetResponse,
-} from "@/types";
+} from '@/types';
 
 export const parkingSessionsService = {
   getAll: async (
@@ -15,13 +15,13 @@ export const parkingSessionsService = {
 
     if (filters?.page) params.page = filters.page;
     if (filters?.limit) params.limit = filters.limit;
-    if (filters?.startDate) params.startDate = filters.startDate;
-    if (filters?.endDate) params.endDate = filters.endDate;
+    if (filters?.checkInTime) params.checkInTime = filters.checkInTime;
+    if (filters?.checkOutTime) params.checkOutTime = filters.checkOutTime;
     if (filters?.vehicleLicensePlate)
       params.vehicleLicensePlate = filters.vehicleLicensePlate;
     if (filters?.status) params.status = filters.status;
 
-    const { data } = await axios.get("/parking-sessions", {
+    const { data } = await axios.get('/parking-sessions', {
       params,
     });
     return data;
@@ -35,7 +35,7 @@ export const parkingSessionsService = {
   create: async (
     data: CreateParkingSessionRequest
   ): Promise<ParkingSession> => {
-    const { data: responseData } = await axios.post("/parking-sessions", data);
+    const { data: responseData } = await axios.post('/parking-sessions', data);
     return responseData;
   },
 
