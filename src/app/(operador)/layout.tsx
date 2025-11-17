@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Topbar } from '@/components/topbar';
+import { Header } from '@/components/Header';
 
 export const metadata: Metadata = {
   title: 'Operator',
@@ -11,7 +11,7 @@ export default function OperadorLayout({
 }) {
   return (
     <main className="min-h-screen bg-background">
-      <Topbar />
+      <Header />
       {children}
     </main>
   );
