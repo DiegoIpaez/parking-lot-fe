@@ -44,7 +44,7 @@ export const parkingSessionsService = {
     data: CompleteParkingSessionRequest
   ): Promise<ParkingSession> => {
     const { data: responseData } = await axios.put(
-      `/parking-sessions/${id}`,
+      `/parking-sessions/${id}/checkout`,
       data
     );
     return responseData;
