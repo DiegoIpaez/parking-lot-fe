@@ -1,23 +1,25 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { LogOut, RefreshCw, ParkingSquare } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { UserRole } from "@/types";
-import { useAuthStore } from "@/stores/auth.store";
-import ButtonCs from "./ui/custom/ButtonCs";
+import { useRouter } from 'next/navigation';
+import { LogOut, ParkingSquare, RefreshCw } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { UserRole } from '@/types';
+import { useAuthStore } from '@/stores/auth.store';
+import ButtonCs from './ui/custom/ButtonCs';
+import { useQueryClient } from '@tanstack/react-query';
 
-interface TopbarProps {
-  onRefresh?: () => void;
-}
-
-export function Topbar({ onRefresh }: TopbarProps) {
+export function Topbar() {
+  const queryClient = useQueryClient();
   const { user, logout } = useAuthStore();
   const router = useRouter();
 
   const handleLogout = () => {
     logout();
-    router.push("/login");
+    router.push('/login');
+  };
+
+  const handleRefresh = () => {
+    queryClient.invalidateQueries();
   };
 
   return (
@@ -28,12 +30,10 @@ export function Topbar({ onRefresh }: TopbarProps) {
           <h1 className="text-xl font-semibold">Sistema de Estacionamiento</h1>
         </div>
         <div className="flex items-center gap-4">
-          {onRefresh && (
-            <ButtonCs variant="outline" size="sm" onClick={onRefresh}>
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Actualizar
-            </ButtonCs>
-          )}
+          <ButtonCs variant="outline" size="sm" onClick={handleRefresh}>
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Actualizar
+          </ButtonCs>
           <div className="flex items-center gap-3">
             <div className="text-right">
               <p className="text-sm font-medium">
@@ -41,7 +41,7 @@ export function Topbar({ onRefresh }: TopbarProps) {
               </p>
               <Badge
                 variant={
-                  user?.role === UserRole.ADMIN ? "default" : "secondary"
+                  user?.role === UserRole.ADMIN ? 'default' : 'secondary'
                 }
                 className="text-xs"
               >

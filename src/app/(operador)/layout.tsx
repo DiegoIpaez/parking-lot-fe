@@ -1,12 +1,18 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
+import { Topbar } from '@/components/topbar';
 
 export const metadata: Metadata = {
-  title: "Operator",
+  title: 'Operator',
 };
 export default function OperadorLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <main className="min-h-screen bg-background">
+      <Topbar />
+      {children}
+    </main>
+  );
 }
