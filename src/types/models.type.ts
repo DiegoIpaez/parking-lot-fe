@@ -89,3 +89,8 @@ export type ParkingSessionFilters = PaginationParams & {
   vehicleLicensePlate?: string | null;
   status?: ParkingSessionStatus | null;
 };
+
+export type CreateVehicleRequest = Pick<
+  Vehicle,
+  'licensePlate' | 'brand' | 'model' | 'color' | 'vehicleTypeId'
+>;
