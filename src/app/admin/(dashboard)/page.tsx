@@ -39,28 +39,25 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <div className="container mx-auto px-4 py-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Historial de Sesiones</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <FiltersForm onFiltersChange={handleFiltersChange} />
-            {isLoading ? (
-              <div className="flex items-center justify-center py-12">
-                <SpinnerCs className="h-8 w-8" />
-              </div>
-            ) : data ? (
-              <SessionsTable
-                data={data as PaginatedResponse<ParkingSession>}
-                onPageChange={handlePageChange}
-              />
-            ) : null}
-          </CardContent>
-        </Card>
-      </div>
+    <div className="container mx-auto px-4 pb-8">
+      <Card>
+        <CardHeader>
+          <CardTitle>Historial de Sesiones</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <FiltersForm onFiltersChange={handleFiltersChange} />
+          {isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <SpinnerCs className="h-8 w-8" />
+            </div>
+          ) : data ? (
+            <SessionsTable
+              data={data as PaginatedResponse<ParkingSession>}
+              onPageChange={handlePageChange}
+            />
+          ) : null}
+        </CardContent>
+      </Card>
     </div>
   );
 }
