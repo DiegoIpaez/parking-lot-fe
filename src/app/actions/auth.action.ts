@@ -1,12 +1,14 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { CONFIG, COOKIES, NodeEnv } from '@/constants';
 
 export async function setAuthCookieServer(token: string) {
   const cookieStore = await cookies();
-  cookieStore.set('access_token', token, {
+
+  cookieStore.set(COOKIES.ACCESS_TOKEN, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: CONFIG.NODE_ENV === NodeEnv.Production,
     sameSite: 'strict',
     maxAge: 60 * 60 * 24,
     path: '/',
@@ -15,5 +17,5 @@ export async function setAuthCookieServer(token: string) {
 
 export async function clearAuthCookieServer() {
   const cookieStore = await cookies();
-  cookieStore.delete('access_token');
+  cookieStore.delete(COOKIES.ACCESS_TOKEN);
 }
