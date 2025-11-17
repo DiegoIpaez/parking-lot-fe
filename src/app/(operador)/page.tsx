@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { sectorsService } from "@/services/sectors.service";
 import { Topbar } from "@/components/topbar";
-import { SectorCard } from "./_components/sector-card";
+import { SectorCard } from "./_components/SectorCard";
 
 export default function OperatorDashboard() {
   const queryClient = useQueryClient();

@@ -5,8 +5,8 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import type { ParkingSpace, ParkingSession } from '@/types';
-import { CheckInModal } from './check-in-modal';
-import { CheckOutModal } from './check-out-modal';
+import { CheckInModal } from './CheckInModal';
+import { CheckOutModal } from './CheckOutModal';
 
 interface ParkingSpaceItemProps {
   space: ParkingSpace;

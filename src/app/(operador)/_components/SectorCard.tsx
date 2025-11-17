@@ -5,7 +5,7 @@ import { parkingSessionsService } from "@/services/parking-sessions.service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { ParkingSessionStatus, type Sector } from "@/types";
-import { ParkingSpaceItem } from "./parking-space-item";
+import { ParkingSpaceItem } from "./ParkingSpaceItem";
 
 interface SectorCardProps {
   sector: Sector;
