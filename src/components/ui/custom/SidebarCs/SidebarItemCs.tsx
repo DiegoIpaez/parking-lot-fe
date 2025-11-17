@@ -1,5 +1,6 @@
 'use client';
 import clsx from 'clsx';
+import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import {
   SidebarMenuButton,
@@ -15,6 +16,12 @@ import {
 import type { SidebarMenuItemProps } from '@/types';
 
 function SimpleMenuItem({ item }: { item: SidebarMenuItemProps }) {
+  const handleClick = (event: React.MouseEvent) => {
+    if (item?.disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
   return (
     <SidebarMenuItem key={item?.title}>
       <SidebarMenuButton
@@ -24,16 +31,20 @@ function SimpleMenuItem({ item }: { item: SidebarMenuItemProps }) {
         disabled={item?.disabled}
         asChild
       >
-        <a href={item?.url}>
+        <Link href={item?.url} onClick={handleClick}>
           <item.icon />
           <span>{item?.title}</span>
-        </a>
+        </Link>
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
 }
 
-export default function SidebarItemCs({ item }: { item: SidebarMenuItemProps }) {
+export default function SidebarItemCs({
+  item,
+}: {
+  item: SidebarMenuItemProps;
+}) {
   if (item?.children == null) return <SimpleMenuItem item={item} />;
   return (
     <Collapsible defaultOpen key={item.title} className="group/collapsible">
@@ -47,22 +58,30 @@ export default function SidebarItemCs({ item }: { item: SidebarMenuItemProps }) 
         </CollapsibleTrigger>
         <CollapsibleContent>
           <SidebarMenuSub>
-            {item?.children.map((sub) => (
-              <SidebarMenuSubItem key={sub?.title}>
-                <SidebarMenuButton
-                  disabled={sub?.disabled}
-                  className={clsx({
-                    'opacity-50 cursor-not-allowed': sub?.disabled,
-                  })}
-                  asChild
-                >
-                  <a href={sub?.url}>
-                    <sub.icon className="w-4 h-4" />
-                    <span>{sub?.title}</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuSubItem>
-            ))}
+            {item?.children.map((sub) => {
+              const handleSubClick = (event: React.MouseEvent) => {
+                if (sub?.disabled) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+              };
+              return (
+                <SidebarMenuSubItem key={sub?.title}>
+                  <SidebarMenuButton
+                    disabled={sub?.disabled}
+                    className={clsx({
+                      'opacity-50 cursor-not-allowed': sub?.disabled,
+                    })}
+                    asChild
+                  >
+                    <Link href={sub?.url} onClick={handleSubClick}>
+                      <sub.icon className="w-4 h-4" />
+                      <span>{sub?.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuSubItem>
+              );
+            })}
           </SidebarMenuSub>
         </CollapsibleContent>
       </SidebarMenuItem>

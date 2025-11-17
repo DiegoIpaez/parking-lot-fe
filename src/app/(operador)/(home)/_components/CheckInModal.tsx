@@ -1,8 +1,9 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import * as z from 'zod';
 import { parkingSessionsService } from '@/services/parking-sessions.service';
 import { vehiclesService } from '@/services/vehicles.service';
@@ -54,6 +55,7 @@ export function CheckInModal({
 }: CheckInModalProps) {
   const { user } = useAuthStore();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const form = useForm<CheckInFormValues>({
     resolver: zodResolver(checkInSchema),
@@ -62,15 +64,27 @@ export function CheckInModal({
     },
   });
 
-  const { data: vehicles = [], isLoading: loadingVehicles } = useQuery({
+  const {
+    data: vehicles = [],
+    isLoading: loadingVehicles,
+    refetch,
+  } = useQuery({
     queryKey: ['vehicles'],
-    queryFn: vehiclesService.getAll,
+    queryFn: async () =>
+      vehiclesService.getAll({ notParked: true, showAll: true }),
     select: (data) => data.data,
+    staleTime: 0,
   });
+
+  useEffect(() => {
+    if (open) refetch();
+  }, [open, refetch]);
 
   const checkInMutation = useMutation({
     mutationFn: parkingSessionsService.create,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['vehicles'] });
+
       toast({
         title: 'Entrada registrada',
         description: `Vehículo ingresado al espacio ${parkingSpace.number}`,
