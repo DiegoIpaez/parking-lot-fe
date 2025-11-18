@@ -1,5 +1,6 @@
 export * from './models.type';
 export * from './reponses.type';
+export * from './dynamicForm.type';
 
 export type LoginRequest = {
   email: string;
