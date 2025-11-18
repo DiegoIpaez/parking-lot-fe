@@ -95,21 +95,24 @@ export default function DynamicInput({
                       defaultValue={formField.value}
                       disabled={disabled || isLoading}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="cursor-pointer">
                         <SelectValue
                           placeholder={placeholder || 'Seleccionar...'}
                         />
                       </SelectTrigger>
                       <SelectContent>
                         {options?.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
+                          <SelectItem
+                            className="cursor-pointer"
+                            key={option.value}
+                            value={option.value}
+                          >
                             {option.label}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   );
-
                 case 'checkbox':
                   return (
                     <div className="flex items-center space-x-2">
@@ -125,7 +128,6 @@ export default function DynamicInput({
                       )}
                     </div>
                   );
-
                 case 'switch':
                   return (
                     <div className="flex items-center space-x-2">
