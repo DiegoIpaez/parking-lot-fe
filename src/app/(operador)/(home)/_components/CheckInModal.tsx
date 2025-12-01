@@ -10,8 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { ParkingSpace } from '@/types';
-import ButtonCs from '@/components/ui/custom/ButtonCs';
 import { CheckInForm } from './CheckInForm';
 import { CreateVehicleForm } from './CreateVehicleForm';
 
@@ -28,7 +28,7 @@ export function CheckInModal({
   parkingSpace,
   onSuccess,
 }: CheckInModalProps) {
-  const [isCreatingVehicle, setIsCreatingVehicle] = useState(false);
+  const [activeTab, setActiveTab] = useState('select');
   const [selectedVehicleId, setSelectedVehicleId] = useState<string>('');
 
   const {
@@ -46,18 +46,18 @@ export function CheckInModal({
   useEffect(() => {
     if (open) {
       refetch();
-      setIsCreatingVehicle(false);
+      setActiveTab('select');
       setSelectedVehicleId('');
     }
   }, [open, refetch]);
 
   const handleVehicleCreated = (vehicleId: number) => {
-    setIsCreatingVehicle(false);
+    setActiveTab('select');
     setSelectedVehicleId(vehicleId.toString());
   };
 
   const handleCheckInSuccess = () => {
-    setIsCreatingVehicle(false);
+    setActiveTab('select');
     setSelectedVehicleId('');
     onOpenChange(false);
     onSuccess();
@@ -73,28 +73,16 @@ export function CheckInModal({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <div className="flex gap-2 border-b">
-            <ButtonCs
-              type="button"
-              variant={!isCreatingVehicle ? 'default' : 'ghost'}
-              onClick={() => setIsCreatingVehicle(false)}
-              className="rounded-b-none"
-              disabled={loadingVehicles}
-            >
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger className='cursor-pointer' value="select" disabled={loadingVehicles}>
               Seleccionar Vehículo
-            </ButtonCs>
-            <ButtonCs
-              type="button"
-              variant={isCreatingVehicle ? 'default' : 'ghost'}
-              onClick={() => setIsCreatingVehicle(true)}
-              className="rounded-b-none"
-              disabled={loadingVehicles}
-            >
+            </TabsTrigger>
+            <TabsTrigger className='cursor-pointer' value="create" disabled={loadingVehicles}>
               Registrar Nuevo
-            </ButtonCs>
-          </div>
-          {!isCreatingVehicle ? (
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="select" className="mt-4">
             <CheckInForm
               parkingSpace={parkingSpace}
               onSuccess={handleCheckInSuccess}
@@ -102,14 +90,15 @@ export function CheckInModal({
               isLoading={loadingVehicles}
               initialVehicleId={selectedVehicleId}
             />
-          ) : (
+          </TabsContent>
+          <TabsContent value="create" className="mt-4">
             <CreateVehicleForm
               onSuccess={handleVehicleCreated}
-              onCancel={() => setIsCreatingVehicle(false)}
+              onCancel={() => setActiveTab('select')}
               isLoading={loadingVehicles}
             />
-          )}
-        </div>
+          </TabsContent>
+        </Tabs>
       </DialogContent>
     </Dialog>
   );
