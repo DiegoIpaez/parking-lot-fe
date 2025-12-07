@@ -9,7 +9,7 @@ import { parkingSessionsService } from '@/services/parking-sessions.service';
 import { ParkingSessionStatus, type ParkingSession } from '@/types';
 import { useAuthStore } from '@/stores/auth.store';
 import { Badge } from '@/components/ui/badge';
-import { DialogCs } from '@/components/ui/custom/DialogCs/DialogCs';
+import { DialogCs } from '@/components/ui/custom/dialogCs/DialogCs';
 
 interface CheckOutModalProps {
   open: boolean;

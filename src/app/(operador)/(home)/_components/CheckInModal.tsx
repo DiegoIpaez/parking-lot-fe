@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import type { ParkingSpace } from '@/types';
 import { vehiclesService } from '@/services/vehicles.service';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import type { ParkingSpace } from '@/types';
 import { CheckInForm } from './CheckInForm';
 import { CreateVehicleForm } from './CreateVehicleForm';
-import { DialogCs } from '@/components/ui/custom/DialogCs/DialogCs';
+import { DialogCs } from '@/components/ui/custom/dialogCs/DialogCs';
 
 interface CheckInModalProps {
   open: boolean;

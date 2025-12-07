@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
 import * as zod from 'zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -11,7 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuthStore } from '@/stores/auth.store';
 import { vehiclesService } from '@/services/vehicles.service';
 import { parkingSessionsService } from '@/services/parking-sessions.service';
-import { DialogFooterCs } from '@/components/ui/custom/DialogCs/DialogCs';
+import { DialogFooterCs } from '@/components/ui/custom/dialogCs/DialogCs';
 import {
   Form,
   FormControl,
@@ -62,8 +62,7 @@ export function CheckInForm({
     },
   });
 
-  // Actualizar el valor cuando cambie initialVehicleId
-  React.useEffect(() => {
+  useEffect(() => {
     if (initialVehicleId) {
       form.setValue('vehicleId', initialVehicleId);
     }
