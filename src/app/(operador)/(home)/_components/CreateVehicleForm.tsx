@@ -87,8 +87,7 @@ export function CreateVehicleForm({
     });
   };
 
-  const isLoading =
-    loadingVehicleTypes || createVehicleMutation.isPending || externalLoading;
+  const isMounted = loadingVehicleTypes || externalLoading;
 
   const fields: FormFieldType[] = [
     {
@@ -97,7 +96,7 @@ export function CreateVehicleForm({
       label: 'Patente',
       placeholder: 'ABC-123',
       required: true,
-      disabled: isLoading,
+      disabled: isMounted,
     },
     {
       name: 'brand',
@@ -105,7 +104,7 @@ export function CreateVehicleForm({
       label: 'Marca',
       placeholder: 'Toyota',
       required: true,
-      disabled: isLoading,
+      disabled: isMounted,
       options: VEHICLE_BRANDS.map((brand) => ({ value: brand, label: brand })),
     },
     {
@@ -114,7 +113,7 @@ export function CreateVehicleForm({
       label: 'Modelo',
       placeholder: 'Corolla',
       required: true,
-      disabled: isLoading,
+      disabled: isMounted,
       options: availableModels.map((model) => ({ value: model, label: model })),
     },
     {
@@ -123,7 +122,7 @@ export function CreateVehicleForm({
       label: 'Color',
       placeholder: 'Blanco',
       required: true,
-      disabled: isLoading,
+      disabled: isMounted,
       options: VEHICLE_COLORS.map((color) => ({ value: color, label: color })),
     },
     {
@@ -131,7 +130,7 @@ export function CreateVehicleForm({
       type: 'select',
       label: 'Tipo de Vehículo',
       required: true,
-      disabled: isLoading,
+      disabled: isMounted,
       options: vehicleTypes.map((type) => ({
         value: type.id.toString(),
         label: type.name,
@@ -144,11 +143,17 @@ export function CreateVehicleForm({
     <DynamicForm
       fields={fields}
       schema={createVehicleSchema}
-      onSubmit={onSubmit}
-      onCancel={onCancel}
+      okBtnProps={{
+        children: 'Registrar Vehículo',
+        type: 'submit',
+        isLoading: createVehicleMutation.isPending,
+        onClick: () => form.handleSubmit(onSubmit)(),
+      }}
+      cancelBtnProps={{
+        onClick: onCancel,
+      }}
       form={form}
-      submitText="Registrar Vehículo"
-      isLoading={isLoading}
+      isMounted={isMounted}
       className="space-y-4"
     />
   );

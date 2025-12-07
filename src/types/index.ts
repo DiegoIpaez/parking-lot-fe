@@ -16,3 +16,13 @@ export type SidebarMenuItemProps = {
   disabled?: boolean;
   children?: SidebarMenuItemProps[];
 };
+
+export type NativeButtonType = React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+
+export type ActionBtnProps = {
+  type?: NativeButtonType;
+  onClick?: () => void | Promise<void>;
+  disabled?: boolean;
+  isLoading?: boolean;
+  children?: React.ReactNode;
+};

@@ -8,16 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import ButtonCs from '@/components/ui/custom/ButtonCs';
-
-type NativeButtonType = React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
-
-type DialogActionBtnProps = {
-  type?: NativeButtonType;
-  onClick?: () => void;
-  disabled?: boolean;
-  isLoading?: boolean;
-  children?: React.ReactNode;
-};
+import { ActionBtnProps } from '@/types';
 
 type CheckOutModalProps = {
   open: boolean;
@@ -27,8 +18,8 @@ type CheckOutModalProps = {
     title: string;
     description: string;
   };
-  okBtnProps?: DialogActionBtnProps;
-  cancelBtnProps?: DialogActionBtnProps;
+  okBtnProps?: ActionBtnProps;
+  cancelBtnProps?: ActionBtnProps;
   footer?: boolean;
 };
 

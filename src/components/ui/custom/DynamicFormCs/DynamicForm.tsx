@@ -2,34 +2,59 @@ import type { ReactNode } from 'react';
 import { z as zod } from 'zod';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormField as FormFieldType } from '@/types';
-import { Form } from '@/components/ui//form';
+import { ActionBtnProps, FormField as FormFieldType } from '@/types';
+import { Form } from '@/components/ui/form';
 import ButtonCs from '../ButtonCs';
 import DynamicInput from './DynamicInput';
 
 type DynamicFormProps = {
   fields: FormFieldType[];
+  okBtnProps?: ActionBtnProps;
+  cancelBtnProps?: ActionBtnProps;
   schema: zod.ZodSchema<any>;
-  onSubmit: (data: any) => void;
-  onCancel?: () => void;
-  cancelText?: ReactNode;
   defaultValues?: Record<string, any>;
-  submitText?: ReactNode;
-  isLoading?: boolean;
+  isMounted?: boolean;
   className?: string;
   form?: UseFormReturn<any>;
 };
 
+function DynamicFormFooterCs({
+  okBtnProps,
+  cancelBtnProps,
+}: Pick<DynamicFormProps, 'okBtnProps' | 'cancelBtnProps'>) {
+  return (
+    <div className="flex justify-end gap-2 mt-4">
+      <ButtonCs
+        type={cancelBtnProps?.type || 'button'}
+        variant="outline"
+        onClick={
+          cancelBtnProps?.onClick ? () => cancelBtnProps?.onClick?.() : () => {}
+        }
+        disabled={cancelBtnProps?.disabled}
+        isLoading={cancelBtnProps?.isLoading}
+      >
+        {cancelBtnProps?.children ?? 'Cancelar'}
+      </ButtonCs>
+      <ButtonCs
+        type={okBtnProps?.type || 'submit'}
+        onClick={okBtnProps?.onClick ? () => okBtnProps?.onClick?.() : () => {}}
+        disabled={okBtnProps?.disabled}
+        isLoading={okBtnProps?.isLoading}
+      >
+        {okBtnProps?.children ?? 'Enviar'}
+      </ButtonCs>
+    </div>
+  );
+}
+
 export default function DynamicForm({
   fields,
   schema,
-  onSubmit,
-  onCancel,
   defaultValues = {},
-  submitText = 'Enviar',
-  cancelText = 'Cancelar',
-  isLoading = false,
+  isMounted = false,
   className = '',
+  okBtnProps,
+  cancelBtnProps,
   form: externalForm,
 }: DynamicFormProps) {
   const internalForm = useForm({
@@ -47,24 +72,13 @@ export default function DynamicForm({
             key={field.name}
             field={field}
             form={form}
-            isLoading={isLoading}
+            isLoading={isMounted}
           />
         ))}
-        <div className="flex justify-end gap-2">
-          {onCancel && (
-            <ButtonCs type="button" variant="outline" onClick={onCancel}>
-              {cancelText}
-            </ButtonCs>
-          )}
-          <ButtonCs
-            type="submit"
-            onClick={form.handleSubmit(onSubmit)}
-            disabled={isLoading}
-            isLoading={isLoading}
-          >
-            {submitText}
-          </ButtonCs>
-        </div>
+        <DynamicFormFooterCs
+          okBtnProps={okBtnProps}
+          cancelBtnProps={cancelBtnProps}
+        />
       </div>
     </Form>
   );
