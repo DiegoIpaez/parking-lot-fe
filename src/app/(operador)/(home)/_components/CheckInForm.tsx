@@ -1,12 +1,17 @@
 'use client';
 
 import React from 'react';
+import * as zod from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import * as z from 'zod';
-import { parkingSessionsService } from '@/services/parking-sessions.service';
+
+import type { ParkingSpace } from '@/types';
+import { useToast } from '@/hooks/use-toast';
+import { useAuthStore } from '@/stores/auth.store';
 import { vehiclesService } from '@/services/vehicles.service';
+import { parkingSessionsService } from '@/services/parking-sessions.service';
+import { DialogFooterCs } from '@/components/ui/custom/DialogCs/DialogCs';
 import {
   Form,
   FormControl,
@@ -22,16 +27,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useToast } from '@/hooks/use-toast';
-import type { ParkingSpace } from '@/types';
-import { useAuthStore } from '@/stores/auth.store';
-import ButtonCs from '@/components/ui/custom/ButtonCs';
 
-const checkInSchema = z.object({
-  vehicleId: z.string().min(1, 'Selecciona un vehículo'),
+const checkInSchema = zod.object({
+  vehicleId: zod.string().min(1, 'Selecciona un vehículo'),
 });
 
-type CheckInFormValues = z.infer<typeof checkInSchema>;
+type CheckInFormValues = zod.infer<typeof checkInSchema>;
 
 interface CheckInFormProps {
   parkingSpace: ParkingSpace;
@@ -39,6 +40,7 @@ interface CheckInFormProps {
   onCancel: () => void;
   isLoading?: boolean;
   initialVehicleId?: string;
+  onOpenChange: (open: boolean) => void;
 }
 
 export function CheckInForm({
@@ -47,6 +49,7 @@ export function CheckInForm({
   onCancel,
   isLoading: externalLoading,
   initialVehicleId,
+  onOpenChange,
 }: CheckInFormProps) {
   const { user } = useAuthStore();
   const { toast } = useToast();
@@ -66,10 +69,7 @@ export function CheckInForm({
     }
   }, [initialVehicleId, form]);
 
-  const {
-    data: vehicles = [],
-    isLoading: loadingVehicles,
-  } = useQuery({
+  const { data: vehicles = [], isLoading: loadingVehicles } = useQuery({
     queryKey: ['vehicles'],
     queryFn: async () =>
       vehiclesService.getAll({ notParked: true, showAll: true }),
@@ -108,7 +108,8 @@ export function CheckInForm({
     });
   };
 
-  const isLoading = loadingVehicles || checkInMutation.isPending || externalLoading;
+  const isLoading =
+    loadingVehicles || checkInMutation.isPending || externalLoading;
 
   return (
     <Form {...form}>
@@ -131,13 +132,9 @@ export function CheckInForm({
                 </FormControl>
                 <SelectContent>
                   {vehicles.map((vehicle) => (
-                    <SelectItem
-                      key={vehicle.id}
-                      value={vehicle.id.toString()}
-                    >
+                    <SelectItem key={vehicle.id} value={vehicle.id.toString()}>
                       {vehicle.licensePlate}
-                      {vehicle.vehicleType &&
-                        ` - ${vehicle.vehicleType.name}`}
+                      {vehicle.vehicleType && ` - ${vehicle.vehicleType.name}`}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -146,25 +143,20 @@ export function CheckInForm({
             </FormItem>
           )}
         />
-        <div className="flex justify-end gap-2">
-          <ButtonCs
-            type="button"
-            variant="outline"
-            onClick={onCancel}
-            disabled={isLoading}
-          >
-            Cancelar
-          </ButtonCs>
-          <ButtonCs
-            type="submit"
-            disabled={isLoading}
-            isLoading={checkInMutation.isPending}
-          >
-            Registrar
-          </ButtonCs>
-        </div>
+        <DialogFooterCs
+          onOpenChange={onOpenChange}
+          okBtnProps={{
+            type: 'submit',
+            children: 'Registrar',
+            isLoading: checkInMutation.isPending,
+          }}
+          cancelBtnProps={{
+            children: 'Cancelar',
+            onClick: onCancel,
+            disabled: isLoading,
+          }}
+        />
       </form>
     </Form>
   );
 }
-

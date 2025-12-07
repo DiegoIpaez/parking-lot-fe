@@ -3,17 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { vehiclesService } from '@/services/vehicles.service';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { ParkingSpace } from '@/types';
 import { CheckInForm } from './CheckInForm';
 import { CreateVehicleForm } from './CreateVehicleForm';
+import { DialogCs } from '@/components/ui/custom/DialogCs/DialogCs';
 
 interface CheckInModalProps {
   open: boolean;
@@ -31,10 +25,7 @@ export function CheckInModal({
   const [activeTab, setActiveTab] = useState('select');
   const [selectedVehicleId, setSelectedVehicleId] = useState<string>('');
 
-  const {
-    refetch,
-    isLoading: loadingVehicles,
-  } = useQuery({
+  const { refetch, isLoading: loadingVehicles } = useQuery({
     queryKey: ['vehicles'],
     queryFn: async () =>
       vehiclesService.getAll({ notParked: true, showAll: true }),
@@ -64,42 +55,55 @@ export function CheckInModal({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Registrar Entrada</DialogTitle>
-          <DialogDescription>
-            Espacio {parkingSpace?.number} - {parkingSpace?.sector?.name}
-          </DialogDescription>
-        </DialogHeader>
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger className='cursor-pointer' value="select" disabled={loadingVehicles}>
-              Seleccionar Vehículo
-            </TabsTrigger>
-            <TabsTrigger className='cursor-pointer' value="create" disabled={loadingVehicles}>
-              Registrar Nuevo
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="select" className="mt-4">
-            <CheckInForm
-              parkingSpace={parkingSpace}
-              onSuccess={handleCheckInSuccess}
-              onCancel={() => onOpenChange(false)}
-              isLoading={loadingVehicles}
-              initialVehicleId={selectedVehicleId}
-            />
-          </TabsContent>
-          <TabsContent value="create" className="mt-4">
-            <CreateVehicleForm
-              onSuccess={handleVehicleCreated}
-              onCancel={() => setActiveTab('select')}
-              isLoading={loadingVehicles}
-            />
-          </TabsContent>
-        </Tabs>
-      </DialogContent>
-    </Dialog>
+    <DialogCs
+      open={open}
+      onOpenChange={onOpenChange}
+      footer={false}
+      headerProps={{
+        title: 'Registrar Entrada',
+        description: `Espacio ${parkingSpace?.number} - ${parkingSpace?.sector?.name}`,
+      }}
+      cancelBtnProps={{
+        onClick: () => onOpenChange(false),
+        children: 'Cancelar',
+        disabled: loadingVehicles,
+      }}
+    >
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger
+            className="cursor-pointer"
+            value="select"
+            disabled={loadingVehicles}
+          >
+            Seleccionar Vehículo
+          </TabsTrigger>
+          <TabsTrigger
+            className="cursor-pointer"
+            value="create"
+            disabled={loadingVehicles}
+          >
+            Registrar Nuevo
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="select" className="mt-4">
+          <CheckInForm
+            onOpenChange={onOpenChange}
+            parkingSpace={parkingSpace}
+            onSuccess={handleCheckInSuccess}
+            onCancel={() => onOpenChange(false)}
+            isLoading={loadingVehicles}
+            initialVehicleId={selectedVehicleId}
+          />
+        </TabsContent>
+        <TabsContent value="create" className="mt-4">
+          <CreateVehicleForm
+            onSuccess={handleVehicleCreated}
+            onCancel={() => setActiveTab('select')}
+            isLoading={loadingVehicles}
+          />
+        </TabsContent>
+      </Tabs>
+    </DialogCs>
   );
 }
