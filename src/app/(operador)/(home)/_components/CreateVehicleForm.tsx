@@ -11,6 +11,7 @@ import {
 import { FormField as FormFieldType } from '@/types';
 import DynamicForm from '@/components/ui/custom/dynamicFormCs/DynamicForm';
 import { VEHICLE_BRANDS, VEHICLE_COLORS, VEHICLE_MODELS } from '@/constants';
+import clientErrorHandler from '@/utils/handlers/clientError.handler';
 
 const createVehicleSchema = zod.object({
   licensePlate: zod.string().min(1, 'La placa es requerida'),
@@ -22,11 +23,11 @@ const createVehicleSchema = zod.object({
 
 type CreateVehicleFormValues = zod.infer<typeof createVehicleSchema>;
 
-interface CreateVehicleFormProps {
+type CreateVehicleFormProps = {
   onSuccess: (vehicleId: number) => void;
   onCancel: () => void;
   isLoading?: boolean;
-}
+};
 
 export function CreateVehicleForm({
   onSuccess,
@@ -68,7 +69,7 @@ export function CreateVehicleForm({
       toast.success('Vehículo registrado exitosamente');
       onSuccess(newVehicle.id);
     },
-    onError: () => toast.error('Ocurrió un error al registrar el vehículo'),
+    onError: (error) => clientErrorHandler(error),
   });
 
   const onSubmit = (values: CreateVehicleFormValues) => {
