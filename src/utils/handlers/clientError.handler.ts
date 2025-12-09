@@ -18,10 +18,10 @@ function normalizeError(error: unknown): Error {
       name: 'AxiosError',
       message: isNetworkError
         ? 'Ha ocurrido un error de red. Por favor, verifica tu conexión a internet.'
-        : error.response?.data?.error?.message ||
+        : error.response?.data?.message ||
           error.message ||
           'Ha ocurrido un error con la solicitud al servidor. Por favor, intenta nuevamente.',
-      stack: error.response?.data?.error?.stack || error.stack,
+      stack: error.response?.data?.stack || error.stack,
     };
   }
   if (error instanceof Error) return error;
