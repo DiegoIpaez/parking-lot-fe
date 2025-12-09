@@ -13,7 +13,7 @@ type DynamicFormProps = {
   cancelBtnProps?: ActionBtnProps;
   schema: zod.ZodSchema<any>;
   defaultValues?: Record<string, any>;
-  isMounted?: boolean;
+  isInitializing?: boolean;
   className?: string;
   form?: UseFormReturn<any>;
 };
@@ -49,13 +49,13 @@ function DynamicFormFooterCs({
 
 export default function DynamicForm({
   fields,
+  form: externalForm,
   schema,
+  isInitializing = false,
   defaultValues = {},
-  isMounted = false,
   className = '',
   okBtnProps,
   cancelBtnProps,
-  form: externalForm,
 }: DynamicFormProps) {
   const internalForm = useForm({
     resolver: zodResolver(schema as any),
@@ -72,7 +72,7 @@ export default function DynamicForm({
             key={field.name}
             field={field}
             form={form}
-            isLoading={isMounted}
+            isLoading={isInitializing}
           />
         ))}
         <DynamicFormFooterCs

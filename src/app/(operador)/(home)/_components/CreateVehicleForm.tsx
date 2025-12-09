@@ -87,7 +87,7 @@ export function CreateVehicleForm({
     });
   };
 
-  const isMounted = loadingVehicleTypes || externalLoading;
+  const isInitializing = loadingVehicleTypes || externalLoading;
 
   const fields: FormFieldType[] = [
     {
@@ -96,7 +96,7 @@ export function CreateVehicleForm({
       label: 'Patente',
       placeholder: 'ABC-123',
       required: true,
-      disabled: isMounted,
+      disabled: isInitializing,
     },
     {
       name: 'brand',
@@ -104,7 +104,7 @@ export function CreateVehicleForm({
       label: 'Marca',
       placeholder: 'Toyota',
       required: true,
-      disabled: isMounted,
+      disabled: isInitializing,
       options: VEHICLE_BRANDS.map((brand) => ({ value: brand, label: brand })),
     },
     {
@@ -113,7 +113,7 @@ export function CreateVehicleForm({
       label: 'Modelo',
       placeholder: 'Corolla',
       required: true,
-      disabled: isMounted,
+      disabled: isInitializing,
       options: availableModels.map((model) => ({ value: model, label: model })),
     },
     {
@@ -122,7 +122,7 @@ export function CreateVehicleForm({
       label: 'Color',
       placeholder: 'Blanco',
       required: true,
-      disabled: isMounted,
+      disabled: isInitializing,
       options: VEHICLE_COLORS.map((color) => ({ value: color, label: color })),
     },
     {
@@ -130,7 +130,7 @@ export function CreateVehicleForm({
       type: 'select',
       label: 'Tipo de Vehículo',
       required: true,
-      disabled: isMounted,
+      disabled: isInitializing,
       options: vehicleTypes.map((type) => ({
         value: type.id.toString(),
         label: type.name,
@@ -153,7 +153,7 @@ export function CreateVehicleForm({
         onClick: onCancel,
       }}
       form={form}
-      isMounted={isMounted}
+      isInitializing={isInitializing}
       className="space-y-4"
     />
   );
