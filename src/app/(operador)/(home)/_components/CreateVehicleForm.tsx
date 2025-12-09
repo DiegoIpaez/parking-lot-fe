@@ -9,7 +9,7 @@ import {
 } from '@/services/vehicles.service';
 import { FormField as FormFieldType } from '@/types';
 import { useToast } from '@/hooks/use-toast';
-import DynamicForm from '@/components/ui/custom/dynamicFormCs/DynamicForm';
+import DynamicForm from '@/components/ui/custom/dynamicFormCustom/DynamicForm';
 import { VEHICLE_BRANDS, VEHICLE_COLORS, VEHICLE_MODELS } from '@/constants';
 
 const createVehicleSchema = zod.object({
