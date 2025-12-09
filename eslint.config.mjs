@@ -19,6 +19,7 @@ const eslintConfig = defineConfig([
   {
     rules: {
       'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/incompatible-library': 'off',
       'no-console': 'error',
       'prettier/prettier': 'error',
       'max-params': ['error', { max: 3 }],
