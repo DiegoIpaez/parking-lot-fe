@@ -7,7 +7,7 @@ import {
   Users,
 } from 'lucide-react';
 import { SidebarMenuItemProps } from '@/types';
-import SidebarCs from '@/components/ui/custom/SidebarCs/SidebarCs';
+import SidebarCs from '@/components/ui/custom/sidebarCs/SidebarCs';
 import { NavUser } from './NavUser';
 
 const items: SidebarMenuItemProps[] = [

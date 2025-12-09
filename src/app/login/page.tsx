@@ -1,6 +1,6 @@
 'use client';
 
-import * as z from 'zod';
+import * as zod from 'zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -28,12 +28,12 @@ import { useAuthStore } from '@/stores/auth.store';
 import { setAuthCookieServer } from '../actions/auth.action';
 import ButtonCs from '@/components/ui/custom/ButtonCs';
 
-const loginSchema = z.object({
-  email: z.string().email('Email inválido'),
-  password: z.string().min(1, 'Password requerido'),
+const loginSchema = zod.object({
+  email: zod.string().email('Email inválido'),
+  password: zod.string().min(1, 'Password requerido'),
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type LoginFormValues = zod.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();

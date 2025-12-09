@@ -2,18 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { vehiclesService } from '@/services/vehicles.service';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 import type { ParkingSpace } from '@/types';
-import ButtonCs from '@/components/ui/custom/ButtonCs';
+import { vehiclesService } from '@/services/vehicles.service';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CheckInForm } from './CheckInForm';
 import { CreateVehicleForm } from './CreateVehicleForm';
+import { DialogCs } from '@/components/ui/custom/dialogCs/DialogCs';
 
 interface CheckInModalProps {
   open: boolean;
@@ -28,13 +22,10 @@ export function CheckInModal({
   parkingSpace,
   onSuccess,
 }: CheckInModalProps) {
-  const [isCreatingVehicle, setIsCreatingVehicle] = useState(false);
+  const [activeTab, setActiveTab] = useState('select');
   const [selectedVehicleId, setSelectedVehicleId] = useState<string>('');
 
-  const {
-    refetch,
-    isLoading: loadingVehicles,
-  } = useQuery({
+  const { refetch, isLoading: loadingVehicles } = useQuery({
     queryKey: ['vehicles'],
     queryFn: async () =>
       vehiclesService.getAll({ notParked: true, showAll: true }),
@@ -46,71 +37,73 @@ export function CheckInModal({
   useEffect(() => {
     if (open) {
       refetch();
-      setIsCreatingVehicle(false);
+      setActiveTab('select');
       setSelectedVehicleId('');
     }
   }, [open, refetch]);
 
   const handleVehicleCreated = (vehicleId: number) => {
-    setIsCreatingVehicle(false);
+    setActiveTab('select');
     setSelectedVehicleId(vehicleId.toString());
   };
 
   const handleCheckInSuccess = () => {
-    setIsCreatingVehicle(false);
+    setActiveTab('select');
     setSelectedVehicleId('');
     onOpenChange(false);
     onSuccess();
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Registrar Entrada</DialogTitle>
-          <DialogDescription>
-            Espacio {parkingSpace?.number} - {parkingSpace?.sector?.name}
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="space-y-4">
-          <div className="flex gap-2 border-b">
-            <ButtonCs
-              type="button"
-              variant={!isCreatingVehicle ? 'default' : 'ghost'}
-              onClick={() => setIsCreatingVehicle(false)}
-              className="rounded-b-none"
-              disabled={loadingVehicles}
-            >
-              Seleccionar Vehículo
-            </ButtonCs>
-            <ButtonCs
-              type="button"
-              variant={isCreatingVehicle ? 'default' : 'ghost'}
-              onClick={() => setIsCreatingVehicle(true)}
-              className="rounded-b-none"
-              disabled={loadingVehicles}
-            >
-              Registrar Nuevo
-            </ButtonCs>
-          </div>
-          {!isCreatingVehicle ? (
-            <CheckInForm
-              parkingSpace={parkingSpace}
-              onSuccess={handleCheckInSuccess}
-              onCancel={() => onOpenChange(false)}
-              isLoading={loadingVehicles}
-              initialVehicleId={selectedVehicleId}
-            />
-          ) : (
-            <CreateVehicleForm
-              onSuccess={handleVehicleCreated}
-              onCancel={() => setIsCreatingVehicle(false)}
-              isLoading={loadingVehicles}
-            />
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
+    <DialogCs
+      open={open}
+      onOpenChange={onOpenChange}
+      footer={false}
+      headerProps={{
+        title: 'Registrar Entrada',
+        description: `Espacio ${parkingSpace?.number} - ${parkingSpace?.sector?.name}`,
+      }}
+      cancelBtnProps={{
+        onClick: () => onOpenChange(false),
+        children: 'Cancelar',
+        disabled: loadingVehicles,
+      }}
+    >
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger
+            className="cursor-pointer"
+            value="select"
+            disabled={loadingVehicles}
+          >
+            Seleccionar Vehículo
+          </TabsTrigger>
+          <TabsTrigger
+            className="cursor-pointer"
+            value="create"
+            disabled={loadingVehicles}
+          >
+            Registrar Nuevo
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="select" className="mt-4">
+          <CheckInForm
+            onOpenChange={onOpenChange}
+            parkingSpace={parkingSpace}
+            onSuccess={handleCheckInSuccess}
+            onCancel={() => onOpenChange(false)}
+            isLoading={loadingVehicles}
+            initialVehicleId={selectedVehicleId}
+          />
+        </TabsContent>
+        <TabsContent value="create" className="mt-4">
+          <CreateVehicleForm
+            onSuccess={handleVehicleCreated}
+            onCancel={() => setActiveTab('select')}
+            isLoading={loadingVehicles}
+          />
+        </TabsContent>
+      </Tabs>
+    </DialogCs>
   );
 }
