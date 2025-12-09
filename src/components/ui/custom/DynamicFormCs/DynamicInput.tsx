@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { FormField as FormFieldType } from '@/types';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';

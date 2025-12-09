@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z as zod } from 'zod';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

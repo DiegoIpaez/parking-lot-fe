@@ -1,21 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { parkingSessionsService } from '@/services/parking-sessions.service';
 import type {
   PaginatedResponse,
   ParkingSession,
   ParkingSessionFilters,
 } from '@/types';
-import { Header } from '@/components/Header';
 import SpinnerCs from '@/components/ui/custom/SpinnerCs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FiltersForm } from './_components/FiltersForm';
 import { SessionsTable } from './_components/SessionsTable';
 
 export default function AdminPage() {
-  const queryClient = useQueryClient();
   const [filters, setFilters] = useState<ParkingSessionFilters>({
     page: 1,
     limit: 10,
@@ -32,10 +30,6 @@ export default function AdminPage() {
 
   const handlePageChange = (page: number) => {
     setFilters((prev) => ({ ...prev, page }));
-  };
-
-  const handleRefresh = () => {
-    queryClient.invalidateQueries({ queryKey: ['parking-sessions'] });
   };
 
   return (

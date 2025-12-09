@@ -1,6 +1,6 @@
 'use client';
 import * as zod from 'zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
@@ -53,7 +53,11 @@ export function CreateVehicleForm({
     },
   });
 
-  const selectedBrand = form.watch('brand');
+  const selectedBrand = useWatch({
+    control: form.control,
+    name: 'brand',
+  });
+
   const availableModels = selectedBrand
     ? VEHICLE_MODELS[selectedBrand] || []
     : [];

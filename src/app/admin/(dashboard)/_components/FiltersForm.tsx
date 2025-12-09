@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import * as zod from 'zod';
 import {
   Form,
   FormControl,
@@ -22,14 +22,14 @@ import { FilterX } from 'lucide-react';
 import type { ParkingSessionFilters, ParkingSessionStatus } from '@/types';
 import ButtonCs from '@/components/ui/custom/ButtonCs';
 
-const filtersSchema = z.object({
-  checkInTime: z.string().optional(),
-  checkOutTime: z.string().optional(),
-  vehicleLicensePlate: z.string().optional(),
-  status: z.enum(['ALL', 'ACTIVE', 'COMPLETED']).optional(),
+const filtersSchema = zod.object({
+  checkInTime: zod.string().optional(),
+  checkOutTime: zod.string().optional(),
+  vehicleLicensePlate: zod.string().optional(),
+  status: zod.enum(['ALL', 'ACTIVE', 'COMPLETED']).optional(),
 });
 
-type FiltersFormValues = z.infer<typeof filtersSchema>;
+type FiltersFormValues = zod.infer<typeof filtersSchema>;
 
 interface FiltersFormProps {
   onFiltersChange: (filters: ParkingSessionFilters) => void;
