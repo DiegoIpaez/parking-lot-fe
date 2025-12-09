@@ -1,13 +1,13 @@
 'use client';
 
 import * as zod from 'zod';
+import { toast } from 'sonner';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { ParkingSpace } from '@/types';
-import { useToast } from '@/hooks/use-toast';
 import { useAuthStore } from '@/stores/auth.store';
 import { vehiclesService } from '@/services/vehicles.service';
 import { parkingSessionsService } from '@/services/parking-sessions.service';
@@ -52,7 +52,6 @@ export function CheckInForm({
   onOpenChange,
 }: CheckInFormProps) {
   const { user } = useAuthStore();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const form = useForm<CheckInFormValues>({
@@ -81,20 +80,11 @@ export function CheckInForm({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['vehicles'] });
 
-      toast({
-        title: 'Entrada registrada',
-        description: `Vehículo ingresado al espacio ${parkingSpace.number}`,
-      });
+      toast.success('Entrada registrada exitosamente');
       form.reset();
       onSuccess();
     },
-    onError: () => {
-      toast({
-        title: 'Error al registrar entrada',
-        description: 'Ocurrió un error',
-        variant: 'destructive',
-      });
-    },
+    onError: () => toast.error('Error al registrar entrada'),
   });
 
   const onSubmit = (values: CheckInFormValues) => {

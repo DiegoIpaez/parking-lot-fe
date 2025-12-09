@@ -1,5 +1,6 @@
 'use client';
 import * as zod from 'zod';
+import { toast } from 'sonner';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -8,7 +9,6 @@ import {
   vehicleTypesService,
 } from '@/services/vehicles.service';
 import { FormField as FormFieldType } from '@/types';
-import { useToast } from '@/hooks/use-toast';
 import DynamicForm from '@/components/ui/custom/dynamicFormCs/DynamicForm';
 import { VEHICLE_BRANDS, VEHICLE_COLORS, VEHICLE_MODELS } from '@/constants';
 
@@ -33,7 +33,6 @@ export function CreateVehicleForm({
   onCancel,
   isLoading: externalLoading,
 }: CreateVehicleFormProps) {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: vehicleTypes = [], isLoading: loadingVehicleTypes } = useQuery({
@@ -66,19 +65,10 @@ export function CreateVehicleForm({
     mutationFn: vehiclesService.create,
     onSuccess: (newVehicle) => {
       queryClient.invalidateQueries({ queryKey: ['vehicles'] });
-      toast({
-        title: 'Vehículo registrado',
-        description: 'El vehículo ha sido registrado exitosamente',
-      });
+      toast.success('Vehículo registrado exitosamente');
       onSuccess(newVehicle.id);
     },
-    onError: () => {
-      toast({
-        title: 'Error al registrar vehículo',
-        description: 'Ocurrió un error al registrar el vehículo',
-        variant: 'destructive',
-      });
-    },
+    onError: () => toast.error('Ocurrió un error al registrar el vehículo'),
   });
 
   const onSubmit = (values: CreateVehicleFormValues) => {
