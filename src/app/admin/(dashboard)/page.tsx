@@ -9,7 +9,7 @@ import type {
   ParkingSession,
   ParkingSessionFilters,
 } from '@/types';
-import { TableCs } from '@/components/ui/custom/TableCs';
+import DataTableCs from '@/components/ui/custom/DataTableCs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FiltersForm } from './_components/FiltersForm';
 import { parkingSessionsColumns } from './_tables/parkingSessions.column';
@@ -45,7 +45,7 @@ export default function AdminPage() {
         </CardHeader>
         <CardContent className="space-y-6">
           <FiltersForm onFiltersChange={handleFiltersChange} />
-          <TableCs
+          <DataTableCs
             isLoading={isLoading}
             columns={columns}
             data={data as PaginatedResponse<ParkingSession>}

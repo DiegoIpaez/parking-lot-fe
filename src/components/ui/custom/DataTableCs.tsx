@@ -45,7 +45,7 @@ const SkeletonRow = ({ columnsCount }: { columnsCount: number }) => {
   );
 };
 
-export function TableCs<T>({
+export default function DataTableCs<T>({
   isLoading,
   data,
   columns,
