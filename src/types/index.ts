@@ -17,7 +17,8 @@ export type SidebarMenuItemProps = {
   children?: SidebarMenuItemProps[];
 };
 
-export type NativeButtonType = React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+export type NativeButtonType =
+  React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 
 export type ActionBtnProps = {
   type?: NativeButtonType;

@@ -1,13 +1,13 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
+import prettierPluginRecommended from 'eslint-plugin-prettier/recommended';
 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  // Override default ignores of eslint-config-next.
+  prettierPluginRecommended,
   globalIgnores([
-    // Default ignores of eslint-config-next:
     'node_modules/**',
     'public/**',
     '.next/**',
@@ -20,12 +20,8 @@ const eslintConfig = defineConfig([
     rules: {
       'react-hooks/set-state-in-effect': 'off',
       'no-console': 'error',
-      'max-params': [
-        'error',
-        {
-          max: 3,
-        },
-      ],
+      'prettier/prettier': 'error',
+      'max-params': ['error', { max: 3 }],
       'id-length': [
         'error',
         {
