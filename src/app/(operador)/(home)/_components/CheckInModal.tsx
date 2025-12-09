@@ -7,7 +7,7 @@ import { vehiclesService } from '@/services/vehicles.service';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CheckInForm } from './CheckInForm';
 import { CreateVehicleForm } from './CreateVehicleForm';
-import { DialogCs } from '@/components/ui/custom/dialogCustom/DialogCs';
+import { DialogCs } from '@/components/ui/custom/dialogCs/DialogCs';
 
 interface CheckInModalProps {
   open: boolean;

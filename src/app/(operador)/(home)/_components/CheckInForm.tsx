@@ -11,7 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuthStore } from '@/stores/auth.store';
 import { vehiclesService } from '@/services/vehicles.service';
 import { parkingSessionsService } from '@/services/parking-sessions.service';
-import { DialogFooterCs } from '@/components/ui/custom/dialogCustom/DialogCs';
+import { DialogFooterCs } from '@/components/ui/custom/dialogCs/DialogCs';
 import {
   Form,
   FormControl,
