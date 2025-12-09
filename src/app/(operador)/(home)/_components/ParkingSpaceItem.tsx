@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import type { ParkingSpace, ParkingSession } from '@/types';
+import {
+  type ParkingSpace,
+  type ParkingSession,
+  ParkingSessionStatus,
+} from '@/types';
 import { CheckInModal } from './CheckInModal';
 import { CheckOutModal } from './CheckOutModal';
 
@@ -22,21 +26,16 @@ export function ParkingSpaceItem({
   const [checkInOpen, setCheckInOpen] = useState(false);
   const [checkOutOpen, setCheckOutOpen] = useState(false);
 
-  const isOccupied = session && session.status === 'ACTIVE';
+  const isOccupied = session && session?.status === ParkingSessionStatus.ACTIVE;
 
-  const handleClick = () => {
-    if (isOccupied) {
-      setCheckOutOpen(true);
-    } else {
-      setCheckInOpen(true);
-    }
-  };
+  const handleClick = () =>
+    isOccupied ? setCheckOutOpen(true) : setCheckInOpen(true);
 
   return (
     <>
       <Card
         className={cn(
-          'p-4 cursor-pointer transition-all hover:shadow-md',
+          'p-4 cursor-pointer transition-all hover:shadow-md min-h-20',
           isOccupied
             ? 'bg-red-950/30 border-red-900 hover:bg-red-950/40'
             : 'bg-green-950/30 border-green-900 hover:bg-green-950/40'
@@ -50,9 +49,7 @@ export function ParkingSpaceItem({
               <Badge
                 variant={isOccupied ? 'destructive' : 'default'}
                 className={cn(
-                  isOccupied
-                    ? ''
-                    : 'bg-green-700 hover:bg-green-800 text-white'
+                  isOccupied ? '' : 'bg-green-700 hover:bg-green-800 text-white'
                 )}
               >
                 {isOccupied ? 'OCUPADO' : 'LIBRE'}
@@ -66,7 +63,6 @@ export function ParkingSpaceItem({
           </div>
         </div>
       </Card>
-
       {!isOccupied && (
         <CheckInModal
           open={checkInOpen}
@@ -75,7 +71,6 @@ export function ParkingSpaceItem({
           onSuccess={onUpdate}
         />
       )}
-
       {isOccupied && session && (
         <CheckOutModal
           open={checkOutOpen}

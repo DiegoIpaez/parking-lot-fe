@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useQuery } from "@tanstack/react-query";
-import { parkingSessionsService } from "@/services/parking-sessions.service";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
-import { ParkingSessionStatus, type Sector } from "@/types";
-import { ParkingSpaceItem } from "./ParkingSpaceItem";
+import { useQuery } from '@tanstack/react-query';
+import { parkingSessionsService } from '@/services/parking-sessions.service';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Loader2 } from 'lucide-react';
+import { ParkingSessionStatus, type Sector } from '@/types';
+import { ParkingSpaceItem } from './ParkingSpaceItem';
 
-interface SectorCardProps {
+type SectorCardProps = {
   sector: Sector;
-}
+};
 
 export function SectorCard({ sector }: SectorCardProps) {
   const {
@@ -17,10 +17,10 @@ export function SectorCard({ sector }: SectorCardProps) {
     isLoading: loadingSessions,
     refetch: refetchSessions,
   } = useQuery({
-    queryKey: ["parking-sessions-active"],
+    queryKey: ['parking-sessions-active'],
     queryFn: () =>
       parkingSessionsService.getAll({ status: ParkingSessionStatus.ACTIVE }),
-    select: (data) => data.data,
+    select: (data) => data?.data,
   });
 
   const handleUpdate = () => {
