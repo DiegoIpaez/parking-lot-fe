@@ -23,7 +23,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { useAuthStore } from '@/stores/auth.store';
 import { setAuthCookieServer } from '../actions/auth.action';
 import ButtonCs from '@/components/ui/custom/ButtonCs';
@@ -37,7 +37,7 @@ type LoginFormValues = zod.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
-  const { toast } = useToast();
+
   const { login } = useAuthStore();
 
   const [isSubmit, setIsSubmit] = useState(false);
@@ -58,18 +58,10 @@ export default function LoginPage() {
       await setAuthCookieServer(data.access_token);
 
       login(data.access_token, data.user);
-      toast({
-        title: 'Inicio de sesión exitoso',
-        description: `Bienvenido, ${data.user.firstName} ${data.user.lastName}!`,
-      });
-
+      toast.success('Inicio de sesión exitoso. Bienvenido!');
       router.push('/');
     } catch {
-      toast({
-        title: 'Error de autenticación',
-        description: 'Credenciales inválidas',
-        variant: 'destructive',
-      });
+      toast.error('Error de autenticación');
     } finally {
       setIsSubmit(false);
     }

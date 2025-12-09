@@ -4,7 +4,7 @@ import { es } from 'date-fns/locale';
 import { formatDistanceToNow } from 'date-fns';
 import { Car, Clock, User } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { parkingSessionsService } from '@/services/parking-sessions.service';
 import { ParkingSessionStatus, type ParkingSession } from '@/types';
 import { useAuthStore } from '@/stores/auth.store';
@@ -25,7 +25,6 @@ export function CheckOutModal({
   onSuccess,
 }: CheckOutModalProps) {
   const { user } = useAuthStore();
-  const { toast } = useToast();
 
   const checkOutMutation = useMutation({
     mutationFn: () => {
@@ -36,20 +35,11 @@ export function CheckOutModal({
       });
     },
     onSuccess: () => {
-      toast({
-        title: 'Salida registrada',
-        description: `Sesión finalizada correctamente`,
-      });
+      toast.success('Salida registrada correctamente');
       onOpenChange(false);
       onSuccess();
     },
-    onError: () => {
-      toast({
-        title: 'Error al registrar salida',
-        description: 'Ocurrió un error',
-        variant: 'destructive',
-      });
-    },
+    onError: () => toast.error('Error al registrar salida'),
   });
 
   const handleCheckOut = () => {
