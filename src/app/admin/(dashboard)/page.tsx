@@ -1,19 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { type ColumnDef } from '@tanstack/react-table';
 import { parkingSessionsService } from '@/services/parking-sessions.service';
 import type {
   PaginatedResponse,
   ParkingSession,
   ParkingSessionFilters,
 } from '@/types';
-import SpinnerCs from '@/components/ui/custom/SpinnerCs';
+import { TableCs } from '@/components/ui/custom/TableCs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FiltersForm } from './_components/FiltersForm';
-import { SessionsTable } from './_components/SessionsTable';
+import { parkingSessionsColumns } from './_tables/parkingSessions.column';
 
 export default function AdminPage() {
+  const columns = useMemo<ColumnDef<ParkingSession>[]>(
+    () => parkingSessionsColumns,
+    []
+  );
   const [filters, setFilters] = useState<ParkingSessionFilters>({
     page: 1,
     limit: 10,
@@ -40,16 +45,12 @@ export default function AdminPage() {
         </CardHeader>
         <CardContent className="space-y-6">
           <FiltersForm onFiltersChange={handleFiltersChange} />
-          {isLoading ? (
-            <div className="flex items-center justify-center py-12">
-              <SpinnerCs className="h-8 w-8" />
-            </div>
-          ) : data ? (
-            <SessionsTable
-              data={data as PaginatedResponse<ParkingSession>}
-              onPageChange={handlePageChange}
-            />
-          ) : null}
+          <TableCs
+            isLoading={isLoading}
+            columns={columns}
+            data={data as PaginatedResponse<ParkingSession>}
+            onPageChange={handlePageChange}
+          />
         </CardContent>
       </Card>
     </div>
