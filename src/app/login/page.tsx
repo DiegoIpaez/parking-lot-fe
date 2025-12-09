@@ -27,6 +27,7 @@ import { toast } from 'sonner';
 import { useAuthStore } from '@/stores/auth.store';
 import { setAuthCookieServer } from '../actions/auth.action';
 import ButtonCs from '@/components/ui/custom/ButtonCs';
+import clientErrorHandler from '@/utils/handlers/clientError.handler';
 
 const loginSchema = zod.object({
   email: zod.string().email('Email inválido'),
@@ -60,8 +61,8 @@ export default function LoginPage() {
       login(data.access_token, data.user);
       toast.success('Inicio de sesión exitoso. Bienvenido!');
       router.push('/');
-    } catch {
-      toast.error('Error de autenticación');
+    } catch (error) {
+      clientErrorHandler(error);
     } finally {
       setIsSubmit(false);
     }

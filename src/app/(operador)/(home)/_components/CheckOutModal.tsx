@@ -1,22 +1,24 @@
 'use client';
 
+import { toast } from 'sonner';
 import { es } from 'date-fns/locale';
 import { formatDistanceToNow } from 'date-fns';
 import { Car, Clock, User } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { parkingSessionsService } from '@/services/parking-sessions.service';
+
 import { ParkingSessionStatus, type ParkingSession } from '@/types';
 import { useAuthStore } from '@/stores/auth.store';
+import { parkingSessionsService } from '@/services/parking-sessions.service';
+import clientErrorHandler from '@/utils/handlers/clientError.handler';
 import { Badge } from '@/components/ui/badge';
 import { DialogCs } from '@/components/ui/custom/dialogCs/DialogCs';
 
-interface CheckOutModalProps {
+type CheckOutModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   session: ParkingSession;
   onSuccess: () => void;
-}
+};
 
 export function CheckOutModal({
   open,
@@ -39,7 +41,7 @@ export function CheckOutModal({
       onOpenChange(false);
       onSuccess();
     },
-    onError: () => toast.error('Error al registrar salida'),
+    onError: (error) => clientErrorHandler(error),
   });
 
   const handleCheckOut = () => {
