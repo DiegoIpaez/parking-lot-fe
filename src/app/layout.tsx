@@ -1,15 +1,15 @@
-import "./globals.css";
-import { Inter } from "next/font/google";
-import { Toaster } from "@/components/ui/toaster";
-import { Metadata } from "next";
-import TanstackQueryProvider from "@/components/providers/TanstackQueryProvider";
+import './globals.css';
+import { Inter } from 'next/font/google';
+import { Toaster } from '@/components/ui/sonner';
+import { Metadata } from 'next';
+import TanstackQueryProvider from '@/components/providers/TanstackQueryProvider';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: "ParkingLot",
-    template: "ParkingLot - %s",
+    default: 'ParkingLot',
+    template: 'ParkingLot - %s',
   },
 };
 
