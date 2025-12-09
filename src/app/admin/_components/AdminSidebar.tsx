@@ -1,11 +1,5 @@
 'use client';
-import {
-  Car,
-  ChartSpline,
-  CircleParking,
-  Home,
-  Users,
-} from 'lucide-react';
+import { Car, ChartSpline, CircleParking, Home, Users } from 'lucide-react';
 import { SidebarMenuItemProps } from '@/types';
 import SidebarCs from '@/components/ui/custom/sidebarCs/SidebarCs';
 import { NavUser } from './NavUser';

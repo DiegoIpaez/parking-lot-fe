@@ -1,4 +1,4 @@
-import { User } from "./models.type";
+import { User } from './models.type';
 
 export type PaginatedResponse<T> = {
   data: T[];
