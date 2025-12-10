@@ -27,7 +27,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import clientErrorHandler from '@/utils/handlers/clientError.handler';
 
 const checkInSchema = zod.object({
   vehicleId: zod.string().min(1, 'Selecciona un vehículo'),
@@ -85,7 +84,6 @@ export function CheckInForm({
       form.reset();
       onSuccess();
     },
-    onError: (error) => clientErrorHandler(error),
   });
 
   const onSubmit = (values: CheckInFormValues) => {

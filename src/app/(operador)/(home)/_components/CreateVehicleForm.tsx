@@ -11,7 +11,6 @@ import {
 import { FormField as FormFieldType } from '@/types';
 import DynamicForm from '@/components/ui/custom/dynamicFormCs/DynamicForm';
 import { VEHICLE_BRANDS, VEHICLE_COLORS, VEHICLE_MODELS } from '@/constants';
-import clientErrorHandler from '@/utils/handlers/clientError.handler';
 
 const createVehicleSchema = zod.object({
   licensePlate: zod.string().min(1, 'La placa es requerida'),
@@ -38,7 +37,7 @@ export function CreateVehicleForm({
 
   const { data: vehicleTypes = [], isLoading: loadingVehicleTypes } = useQuery({
     queryKey: ['vehicle-types'],
-    queryFn: async () => vehicleTypesService.getAll(),
+    queryFn: async () => vehicleTypesService.getAll({ showAll: true }),
     select: (data) => data.data,
   });
 
@@ -69,7 +68,6 @@ export function CreateVehicleForm({
       toast.success('Vehículo registrado exitosamente');
       onSuccess(newVehicle.id);
     },
-    onError: (error) => clientErrorHandler(error),
   });
 
   const onSubmit = (values: CreateVehicleFormValues) => {
