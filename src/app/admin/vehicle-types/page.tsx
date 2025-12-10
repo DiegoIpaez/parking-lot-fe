@@ -17,7 +17,6 @@ import {
 import DataTableCs from '@/components/ui/custom/DataTableCs';
 import VehicleTypeFormDialog from './_components/VehicleTypeFormDialog';
 import VehicleTypeDeleteDialog from './_components/VehicleTypeDeleteDialog';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import TitleAdmin from '../_components/TitleAdmin';
 
 export default function VehicleTypesPage() {
