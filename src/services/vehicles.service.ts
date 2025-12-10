@@ -4,7 +4,6 @@ import type {
   PaginationParams,
   Vehicle,
   CreateVehicleRequest,
-  VehicleType,
 } from '@/types';
 
 export const vehiclesService = {
@@ -26,14 +25,5 @@ export const vehiclesService = {
   create: async (data: CreateVehicleRequest): Promise<Vehicle> => {
     const { data: responseData } = await axios.post('/vehicles', data);
     return responseData;
-  },
-};
-
-export const vehicleTypesService = {
-  getAll: async (): Promise<GetResponse<VehicleType>> => {
-    const { data } = await axios.get('/vehicle-types', {
-      params: { showAll: true },
-    });
-    return data;
   },
 };
