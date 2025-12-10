@@ -45,7 +45,7 @@ const items: SidebarMenuItemProps[] = [
         title: 'Tipos de vehiculos',
         url: '/admin/vehicle-types',
         icon: Car,
-        disabled: true,
+        disabled: false,
       },
     ],
   },

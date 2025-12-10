@@ -26,4 +26,5 @@ export type ActionBtnProps = {
   disabled?: boolean;
   isLoading?: boolean;
   children?: React.ReactNode;
+  className?: string;
 };

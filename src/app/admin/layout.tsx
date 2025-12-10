@@ -1,14 +1,10 @@
-import { Metadata } from 'next';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import AdminSidebar from './_components/AdminSidebar';
-
-export const metadata: Metadata = {
-  title: 'Admin',
-};
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function AdminLayout({
   children,
@@ -32,7 +28,11 @@ export default function AdminLayout({
               <SidebarTrigger className="cursor-pointer" />
               <h2 className="ml-4 text-base font-medium">Admin Panel</h2>
             </header>
-            <main className="flex-1 p-4">{children}</main>
+            <main className="flex-1 p-4">
+              <Card>
+                <CardContent>{children}</CardContent>
+              </Card>
+            </main>
           </div>
         </SidebarInset>
       </SidebarProvider>

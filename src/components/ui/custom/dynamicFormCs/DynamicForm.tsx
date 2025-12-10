@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import clsx from 'clsx';
 import { z as zod } from 'zod';
-import { useForm, UseFormReturn } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { ActionBtnProps, FormField as FormFieldType } from '@/types';
 import { Form } from '@/components/ui/form';
 import ButtonCs from '../ButtonCs';
@@ -16,6 +17,7 @@ type DynamicFormProps = {
   isInitializing?: boolean;
   className?: string;
   form?: UseFormReturn<any>;
+  onSubmit?: SubmitHandler<any>;
 };
 
 function DynamicFormFooterCs({
@@ -56,17 +58,21 @@ export default function DynamicForm({
   className = '',
   okBtnProps,
   cancelBtnProps,
+  onSubmit,
 }: DynamicFormProps) {
   const internalForm = useForm({
     resolver: zodResolver(schema as any),
     defaultValues,
   });
 
-  const form = externalForm || internalForm;
+  const form = externalForm ?? internalForm;
 
   return (
     <Form {...form}>
-      <div className={`space-y-6 ${className}`}>
+      <form
+        onSubmit={onSubmit ? form.handleSubmit(onSubmit) : undefined}
+        className={clsx('space-y-6', className)}
+      >
         {fields.map((field) => (
           <DynamicInput
             key={field.name}
@@ -79,7 +85,7 @@ export default function DynamicForm({
           okBtnProps={okBtnProps}
           cancelBtnProps={cancelBtnProps}
         />
-      </div>
+      </form>
     </Form>
   );
 }

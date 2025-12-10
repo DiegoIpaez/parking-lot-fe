@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { type ColumnDef } from '@tanstack/react-table';
+
 import { parkingSessionsService } from '@/services/parking-sessions.service';
 import type {
   PaginatedResponse,
@@ -10,7 +11,6 @@ import type {
   ParkingSessionFilters,
 } from '@/types';
 import DataTableCs from '@/components/ui/custom/DataTableCs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FiltersForm } from './_components/FiltersForm';
 import { parkingSessionsColumns } from './_tables/parkingSessions.column';
 
@@ -38,21 +38,14 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 pb-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>Historial de Sesiones</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <FiltersForm onFiltersChange={handleFiltersChange} />
-          <DataTableCs
-            isLoading={isLoading}
-            columns={columns}
-            data={data as PaginatedResponse<ParkingSession>}
-            onPageChange={handlePageChange}
-          />
-        </CardContent>
-      </Card>
+    <div className="space-y-4">
+      <FiltersForm onFiltersChange={handleFiltersChange} />
+      <DataTableCs
+        isLoading={isLoading}
+        columns={columns}
+        data={data as PaginatedResponse<ParkingSession>}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }

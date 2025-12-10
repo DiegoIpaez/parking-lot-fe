@@ -9,7 +9,6 @@ import { useMutation } from '@tanstack/react-query';
 import { ParkingSessionStatus, type ParkingSession } from '@/types';
 import { useAuthStore } from '@/stores/auth.store';
 import { parkingSessionsService } from '@/services/parking-sessions.service';
-import clientErrorHandler from '@/utils/handlers/clientError.handler';
 import { Badge } from '@/components/ui/badge';
 import { DialogCs } from '@/components/ui/custom/dialogCs/DialogCs';
 
@@ -41,7 +40,6 @@ export function CheckOutModal({
       onOpenChange(false);
       onSuccess();
     },
-    onError: (error) => clientErrorHandler(error),
   });
 
   const handleCheckOut = () => {

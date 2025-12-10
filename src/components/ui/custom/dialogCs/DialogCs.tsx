@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import {
   Dialog,
   DialogContent,
@@ -31,6 +32,7 @@ export function DialogFooterCs({
   return (
     <div className="flex justify-end gap-2 mt-4">
       <ButtonCs
+        className={clsx('cursor-pointer', cancelBtnProps?.className)}
         type={cancelBtnProps?.type || 'button'}
         variant="outline"
         onClick={
@@ -44,6 +46,7 @@ export function DialogFooterCs({
         {cancelBtnProps?.children ?? 'Cerrar'}
       </ButtonCs>
       <ButtonCs
+        className={clsx('cursor-pointer', okBtnProps?.className)}
         type={okBtnProps?.type || 'button'}
         onClick={okBtnProps?.onClick ? () => okBtnProps?.onClick?.() : () => {}}
         disabled={okBtnProps?.disabled}
