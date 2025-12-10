@@ -21,7 +21,7 @@ const items: SidebarMenuItemProps[] = [
     title: 'Usuarios',
     url: '/admin/users',
     icon: Users,
-    disabled: true,
+    disabled: false,
   },
   {
     title: 'Sectores y espacios',
