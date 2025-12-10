@@ -5,6 +5,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import AdminSidebar from './_components/AdminSidebar';
+import { Card, CardContent } from '@/components/ui/card';
 
 export const metadata: Metadata = {
   title: 'Admin',
@@ -32,7 +33,11 @@ export default function AdminLayout({
               <SidebarTrigger className="cursor-pointer" />
               <h2 className="ml-4 text-base font-medium">Admin Panel</h2>
             </header>
-            <main className="flex-1 p-4">{children}</main>
+            <main className="flex-1 p-4">
+              <Card>
+                <CardContent>{children}</CardContent>
+              </Card>
+            </main>
           </div>
         </SidebarInset>
       </SidebarProvider>

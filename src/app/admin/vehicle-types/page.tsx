@@ -18,6 +18,7 @@ import DataTableCs from '@/components/ui/custom/DataTableCs';
 import VehicleTypeFormDialog from './_components/VehicleTypeFormDialog';
 import VehicleTypeDeleteDialog from './_components/VehicleTypeDeleteDialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import TitleAdmin from '../_components/TitleAdmin';
 
 export default function VehicleTypesPage() {
   const queryClient = useQueryClient();
@@ -102,27 +103,25 @@ export default function VehicleTypesPage() {
 
   return (
     <>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Car className="w-6 h-6" /> Tipos de vehículos
-            </div>
-            <ButtonCs onClick={() => setOpenDialog(true)}>
+      <TitleAdmin
+        title="Tipos de vehículos"
+        icon={<Car className="w-6 h-6" />}
+        okBtnProps={{
+          onClick: () => setOpenDialog(true),
+          children: (
+            <>
               Crear tipo <Plus />
-            </ButtonCs>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <DataTableCs
-            isLoading={isLoading}
-            columns={columns}
-            data={data as PaginatedResponse<VehicleType>}
-            onPageChange={() => {}}
-            emptyMessage="No hay tipos de vehículos"
-          />
-        </CardContent>
-      </Card>
+            </>
+          ),
+        }}
+      />
+      <DataTableCs
+        isLoading={isLoading}
+        columns={columns}
+        data={data as PaginatedResponse<VehicleType>}
+        onPageChange={() => {}}
+        emptyMessage="No hay tipos de vehículos"
+      />
       <VehicleTypeFormDialog
         open={openDialog || !!editRow}
         onOpenChange={() => {
