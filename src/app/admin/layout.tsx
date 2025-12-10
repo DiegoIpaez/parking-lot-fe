@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import {
   SidebarInset,
   SidebarProvider,
@@ -6,10 +5,6 @@ import {
 } from '@/components/ui/sidebar';
 import AdminSidebar from './_components/AdminSidebar';
 import { Card, CardContent } from '@/components/ui/card';
-
-export const metadata: Metadata = {
-  title: 'Admin',
-};
 
 export default function AdminLayout({
   children,
