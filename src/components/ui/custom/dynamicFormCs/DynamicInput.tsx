@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { AutocompleteCs } from '../AutocompleteCs';
 
 type DynamicInputProps = {
   field: FormFieldType;
@@ -66,7 +67,6 @@ export default function DynamicInput({
                       {...formField}
                     />
                   );
-
                 case 'number':
                   return (
                     <Input
@@ -159,6 +159,17 @@ export default function DynamicInput({
                           formField.onChange(files?.[0] || null);
                         }
                       }}
+                    />
+                  );
+                case 'autocomplete':
+                  return (
+                    <AutocompleteCs
+                      disabled={disabled}
+                      placeholder={placeholder}
+                      value={formField.value}
+                      onChange={formField.onChange}
+                      queryKey={field.queryKey ?? ''}
+                      {...field}
                     />
                   );
                 default:
