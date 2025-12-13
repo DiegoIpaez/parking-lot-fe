@@ -1,9 +1,9 @@
 import axios from '@/lib/axios';
-import { GetResponse, PaginationParams, VehicleBrand } from '@/types';
+import { GetResponse, ListQueryParams, VehicleBrand } from '@/types';
 
 export const vehicleBrandsService = {
   getAll: async (
-    params?: PaginationParams
+    params?: ListQueryParams
   ): Promise<GetResponse<VehicleBrand>> => {
     const { data } = await axios.get('/vehicle-brands', {
       params,

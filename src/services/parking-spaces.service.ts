@@ -1,5 +1,5 @@
 import axios from '@/lib/axios';
-import type { GetResponse, ParkingSpace } from '@/types';
+import type { GetResponse, ListQueryParams, ParkingSpace } from '@/types';
 
 export const parkingSpacesService = {
   getBySector: async (sectorId: number): Promise<GetResponse<ParkingSpace>> => {
@@ -8,10 +8,11 @@ export const parkingSpacesService = {
     });
     return data;
   },
-
-  getAll: async (): Promise<GetResponse<ParkingSpace>> => {
+  getAll: async (
+    params: ListQueryParams
+  ): Promise<GetResponse<ParkingSpace>> => {
     const { data } = await axios.get('/parking-spaces', {
-      params: { showAll: true },
+      params,
     });
     return data;
   },
