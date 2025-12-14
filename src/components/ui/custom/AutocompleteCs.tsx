@@ -56,6 +56,7 @@ export function AutocompleteCs<TItem>({
       return data;
     },
     enabled: open,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     select: (data: any[]) =>
       mapOption
         ? data?.map?.(mapOption)
