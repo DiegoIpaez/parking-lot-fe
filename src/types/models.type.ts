@@ -1,4 +1,4 @@
-import { PaginationParams } from './reponses.type';
+import { ListQueryParams } from './reponses.type';
 
 type PrismaModel = {
   id: number;
@@ -25,13 +25,25 @@ export type VehicleType = PrismaModel & {
   description?: string;
 };
 
+export type VehicleBrand = PrismaModel & {
+  name: string;
+  deleted: boolean;
+  vehicleModels?: VehicleModel[];
+};
+
+export type VehicleModel = PrismaModel & {
+  name: string;
+  vehicleTypeId: number;
+  vehicleBrandId: number;
+  vehicleType?: VehicleType;
+  vehicleBrand?: VehicleBrand;
+};
+
 export type Vehicle = PrismaModel & {
   licensePlate: string;
-  brand: string;
-  model: string;
   color: string;
-  vehicleTypeId: number;
-  vehicleType?: VehicleType;
+  vehicleModelId: number;
+  vehicleModel?: VehicleModel;
 };
 
 export type Sector = PrismaModel & {
@@ -83,7 +95,7 @@ export type CompleteParkingSessionRequest = Pick<
   'checkOutUserId'
 >;
 
-export type ParkingSessionFilters = PaginationParams & {
+export type ParkingSessionFilters = ListQueryParams & {
   checkInTime?: string | null | Date;
   checkOutTime?: string | null | Date;
   vehicleLicensePlate?: string | null;
@@ -92,5 +104,5 @@ export type ParkingSessionFilters = PaginationParams & {
 
 export type CreateVehicleRequest = Pick<
   Vehicle,
-  'licensePlate' | 'brand' | 'model' | 'color' | 'vehicleTypeId'
+  'licensePlate' | 'vehicleModelId' | 'color'
 >;

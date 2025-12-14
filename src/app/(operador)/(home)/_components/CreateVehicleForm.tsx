@@ -1,21 +1,22 @@
 'use client';
 import * as zod from 'zod';
 import { toast } from 'sonner';
+import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { vehiclesService } from '@/services/vehicles.service';
-import { vehicleTypesService } from '@/services/vehicleTypes.service';
+import { vehicleBrandsService } from '@/services/vehicleBrands.service';
+import { vehicleModelsService } from '@/services/vehicleModels.service';
 import { FormField as FormFieldType } from '@/types';
 import DynamicForm from '@/components/ui/custom/dynamicFormCs/DynamicForm';
-import { VEHICLE_BRANDS, VEHICLE_COLORS, VEHICLE_MODELS } from '@/constants';
+import { VEHICLE_COLORS } from '@/constants';
 
 const createVehicleSchema = zod.object({
   licensePlate: zod.string().min(1, 'La placa es requerida'),
-  brand: zod.string().min(1, 'La marca es requerida'),
-  model: zod.string().min(1, 'El modelo es requerido'),
+  vehicleBrandId: zod.number().min(1, 'La marca es requerida'),
+  vehicleModelId: zod.number().min(1, 'El modelo es requerido'),
   color: zod.string().min(1, 'El color es requerido'),
-  vehicleTypeId: zod.string().min(1, 'Selecciona un tipo de vehículo'),
 });
 
 type CreateVehicleFormValues = zod.infer<typeof createVehicleSchema>;
@@ -33,31 +34,24 @@ export function CreateVehicleForm({
 }: CreateVehicleFormProps) {
   const queryClient = useQueryClient();
 
-  const { data: vehicleTypes = [], isLoading: loadingVehicleTypes } = useQuery({
-    queryKey: ['vehicle-types'],
-    queryFn: async () => vehicleTypesService.getAll({ showAll: true }),
-    select: (data) => data.data,
-  });
-
   const form = useForm<CreateVehicleFormValues>({
     resolver: zodResolver(createVehicleSchema),
     defaultValues: {
       licensePlate: '',
-      brand: '',
-      model: '',
+      vehicleBrandId: 0,
+      vehicleModelId: 0,
       color: '',
-      vehicleTypeId: '',
     },
   });
 
-  const selectedBrand = useWatch({
+  const selectedBrandId = useWatch({
     control: form.control,
-    name: 'brand',
+    name: 'vehicleBrandId',
   });
 
-  const availableModels = selectedBrand
-    ? VEHICLE_MODELS[selectedBrand] || []
-    : [];
+  useEffect(() => {
+    form.setValue('vehicleModelId', 0);
+  }, [selectedBrandId, form]);
 
   const createVehicleMutation = useMutation({
     mutationFn: vehiclesService.create,
@@ -71,14 +65,12 @@ export function CreateVehicleForm({
   const onSubmit = (values: CreateVehicleFormValues) => {
     createVehicleMutation.mutate({
       licensePlate: values.licensePlate,
-      brand: values.brand,
-      model: values.model,
+      vehicleModelId: values.vehicleModelId,
       color: values.color,
-      vehicleTypeId: parseInt(values.vehicleTypeId),
     });
   };
 
-  const isInitializing = loadingVehicleTypes || externalLoading;
+  const isInitializing = externalLoading;
 
   const fields: FormFieldType[] = [
     {
@@ -90,22 +82,27 @@ export function CreateVehicleForm({
       disabled: isInitializing,
     },
     {
-      name: 'brand',
-      type: 'select',
+      name: 'vehicleBrandId',
+      type: 'autocomplete',
       label: 'Marca',
-      placeholder: 'Toyota',
+      placeholder: 'Buscar marca...',
       required: true,
       disabled: isInitializing,
-      options: VEHICLE_BRANDS.map((brand) => ({ value: brand, label: brand })),
+      queryKey: 'vehicle-brands',
+      queryFn: vehicleBrandsService.getAll,
     },
     {
-      name: 'model',
-      type: 'select',
+      name: 'vehicleModelId',
+      type: 'autocomplete',
       label: 'Modelo',
-      placeholder: 'Corolla',
+      placeholder: 'Buscar modelo...',
       required: true,
-      disabled: isInitializing,
-      options: availableModels.map((model) => ({ value: model, label: model })),
+      disabled: isInitializing || !selectedBrandId,
+      queryKey: 'vehicle-models',
+      queryFn: vehicleModelsService.getAll,
+      queryParams: selectedBrandId
+        ? { vehicleBrandId: selectedBrandId }
+        : undefined,
     },
     {
       name: 'color',
@@ -116,18 +113,6 @@ export function CreateVehicleForm({
       disabled: isInitializing,
       options: VEHICLE_COLORS.map((color) => ({ value: color, label: color })),
     },
-    {
-      name: 'vehicleTypeId',
-      type: 'select',
-      label: 'Tipo de Vehículo',
-      required: true,
-      disabled: isInitializing,
-      options: vehicleTypes.map((type) => ({
-        value: type.id.toString(),
-        label: type.name,
-      })),
-      placeholder: 'Selecciona un tipo',
-    },
   ];
 
   return (
@@ -136,7 +121,7 @@ export function CreateVehicleForm({
       schema={createVehicleSchema}
       okBtnProps={{
         children: 'Registrar Vehículo',
-        type: 'submit',
+        type: 'button',
         isLoading: createVehicleMutation.isPending,
         onClick: () => form.handleSubmit(onSubmit)(),
       }}

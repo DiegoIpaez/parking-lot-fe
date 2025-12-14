@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Check, ChevronsUpDown } from 'lucide-react';
-import type { GetResponse, ListQueryParams } from '@/types';
+import type { Dictionary, GetResponse, ListQueryParams } from '@/types';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -27,6 +27,7 @@ type AutocompleteInputProps<TData> = {
   onChange: (value: string) => void;
   queryKey: string;
   queryFn: (queryParams: ListQueryParams) => Promise<GetResponse<TData>>;
+  queryParams?: Dictionary<TData>;
   placeholder?: string;
   disabled?: boolean;
   minChars?: number;
@@ -43,14 +44,15 @@ export function AutocompleteCs<TItem>({
   placeholder = 'Buscar...',
   disabled,
   mapOption,
+  queryParams,
 }: AutocompleteInputProps<TItem>) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
 
   const { data, isFetching } = useQuery({
-    queryKey: ['autocomplete', queryKey, search],
+    queryKey: ['autocomplete', queryKey, search, queryParams],
     queryFn: async () => {
-      const { data } = await queryFn({ search, showAll: true });
+      const { data } = await queryFn({ search, showAll: true, ...queryParams });
       return data;
     },
     enabled: open,

@@ -32,6 +32,7 @@ export type FormField = {
   accept?: string;
   multiple?: boolean;
   queryKey?: string;
-  queryFn: (queryParams: ListQueryParams) => Promise<GetResponse<unknown>>;
+  queryFn?: (queryParams: ListQueryParams) => Promise<GetResponse<unknown>>;
+  queryParams?: Record<string, unknown>;
   mapOption?: (item: unknown) => FieldOption;
 };
