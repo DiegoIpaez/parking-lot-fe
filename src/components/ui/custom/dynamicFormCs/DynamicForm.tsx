@@ -3,13 +3,13 @@ import clsx from 'clsx';
 import { z as zod } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
-import { ActionBtnProps, FormField as FormFieldType } from '@/types';
+import { ActionBtnProps, FormField as TFormField } from '@/types';
 import { Form } from '@/components/ui/form';
 import ButtonCs from '../ButtonCs';
 import DynamicInput from './DynamicInput';
 
 type DynamicFormProps = {
-  fields: FormFieldType[];
+  fields: TFormField[];
   okBtnProps?: ActionBtnProps;
   cancelBtnProps?: ActionBtnProps;
   schema: zod.ZodSchema<any>;

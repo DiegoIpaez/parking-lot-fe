@@ -72,9 +72,9 @@ export function CheckOutModal({
             <p className="text-lg font-semibold">
               {session.vehicle?.licensePlate}
             </p>
-            {session.vehicle?.vehicleType && (
+            {session.vehicle?.vehicleModel?.vehicleType && (
               <p className="text-xs text-muted-foreground">
-                {session.vehicle.vehicleType.name}
+                {session.vehicle?.vehicleModel.vehicleType.name}
               </p>
             )}
           </div>

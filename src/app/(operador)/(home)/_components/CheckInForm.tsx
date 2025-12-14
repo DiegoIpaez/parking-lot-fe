@@ -119,10 +119,11 @@ export function CheckInForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {vehicles.map((vehicle) => (
+                  {vehicles?.map((vehicle) => (
                     <SelectItem key={vehicle.id} value={vehicle.id.toString()}>
-                      {vehicle.licensePlate}
-                      {vehicle.vehicleType && ` - ${vehicle.vehicleType.name}`}
+                      {vehicle?.licensePlate}
+                      {vehicle?.vehicleModel?.vehicleType &&
+                        ` - ${vehicle?.vehicleModel?.vehicleType?.name}`}
                     </SelectItem>
                   ))}
                 </SelectContent>

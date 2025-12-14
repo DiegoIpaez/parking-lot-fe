@@ -1,7 +1,7 @@
 import axios from '@/lib/axios';
 import type {
   GetResponse,
-  PaginationParams,
+  ListQueryParams,
   Vehicle,
   CreateVehicleRequest,
 } from '@/types';
@@ -10,7 +10,7 @@ export const vehiclesService = {
   getAll: async (
     params: {
       notParked?: boolean;
-    } & PaginationParams
+    } & ListQueryParams
   ): Promise<GetResponse<Vehicle>> => {
     const { data } = await axios.get('/vehicles', {
       params,

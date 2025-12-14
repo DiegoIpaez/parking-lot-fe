@@ -1,5 +1,5 @@
 import axios from '@/lib/axios';
-import type { GetResponse, PaginationParams, User, UserRole } from '@/types';
+import type { GetResponse, ListQueryParams, User, UserRole } from '@/types';
 
 export type CreateUserRequest = Pick<
   User,
@@ -10,7 +10,7 @@ export type CreateUserRequest = Pick<
 
 export type UpdateUserRequest = Partial<CreateUserRequest>;
 
-export type UserFilters = PaginationParams & {
+export type UserFilters = ListQueryParams & {
   role?: UserRole | null;
   isActive?: boolean | null;
 };

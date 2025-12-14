@@ -61,7 +61,7 @@ export function CheckInModal({
       footer={false}
       headerProps={{
         title: 'Registrar Entrada',
-        description: `Espacio ${parkingSpace?.number} - ${parkingSpace?.sector?.name}`,
+        description: `Espacio ${parkingSpace?.number} - ${parkingSpace?.sector?.name || ''}`,
       }}
       cancelBtnProps={{
         onClick: () => onOpenChange(false),

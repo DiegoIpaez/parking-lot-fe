@@ -1,9 +1,5 @@
 import axios from '@/lib/axios';
-import type { GetResponse, VehicleType } from '@/types';
-
-type GetVehicleTypesParams = {
-  showAll?: boolean | null;
-};
+import type { GetResponse, ListQueryParams, VehicleType } from '@/types';
 
 type CreateVehicleTypePayload = Omit<
   VehicleType,
@@ -14,7 +10,7 @@ type UpdateVehicleTypePayload = Partial<CreateVehicleTypePayload>;
 
 export const vehicleTypesService = {
   getAll: async (
-    params: GetVehicleTypesParams = {}
+    params: ListQueryParams = {}
   ): Promise<GetResponse<VehicleType>> => {
     const { data } = await axios.get('/vehicle-types', {
       params,

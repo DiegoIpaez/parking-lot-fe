@@ -21,8 +21,9 @@ export type LoginResponse = {
   user: User;
 };
 
-export type PaginationParams = {
+export type ListQueryParams = {
   page?: number;
   limit?: number;
+  search?: string;
   showAll?: boolean;
 };

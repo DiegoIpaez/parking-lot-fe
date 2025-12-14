@@ -1,10 +1,11 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+
 import { parkingSessionsService } from '@/services/parking-sessions.service';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
 import { ParkingSessionStatus, type Sector } from '@/types';
+import SpinnerCs from '@/components/ui/custom/SpinnerCs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ParkingSpaceItem } from './ParkingSpaceItem';
 
 type SectorCardProps = {
@@ -52,7 +53,7 @@ export function SectorCard({ sector }: SectorCardProps) {
       <CardContent>
         {loadingSessions ? (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-6 w-6 animate-spin" />
+            <SpinnerCs className="h-6 w-6 animate-spin" />
           </div>
         ) : sector?.parkingSpaces?.length === 0 ? (
           <p className="text-center text-sm text-muted-foreground py-4">

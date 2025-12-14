@@ -1,4 +1,5 @@
 import { FormField } from '@/components/ui/form';
+import { GetResponse, ListQueryParams } from './reponses.type';
 
 export interface FieldOption {
   value: string;
@@ -16,9 +17,10 @@ export type FormFieldType =
   | 'switch'
   | 'date'
   | 'file'
-  | 'radio';
+  | 'radio'
+  | 'autocomplete';
 
-export interface FormField {
+export type FormField = {
   name: string;
   type: FormFieldType;
   label?: string;
@@ -29,4 +31,8 @@ export interface FormField {
   disabled?: boolean;
   accept?: string;
   multiple?: boolean;
-}
+  queryKey?: string;
+  queryFn?: (queryParams: ListQueryParams) => Promise<GetResponse<unknown>>;
+  queryParams?: Record<string, unknown>;
+  mapOption?: (item: unknown) => FieldOption;
+};

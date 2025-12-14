@@ -8,7 +8,7 @@ import { SectorCard } from './_components/SectorCard';
 export default function OperatorDashboard() {
   const { data = [], isLoading } = useQuery({
     queryKey: ['sectors'],
-    queryFn: sectorsService.getAll,
+    queryFn: () => sectorsService.getAll(),
     select: (data) => data.data,
   });
 
