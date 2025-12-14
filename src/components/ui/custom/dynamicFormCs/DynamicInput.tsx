@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { FormField as FormFieldType } from '@/types';
+import type { FormField as FormFieldType, GetResponse } from '@/types';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -169,7 +169,11 @@ export default function DynamicInput({
                       value={formField.value}
                       onChange={formField.onChange}
                       queryKey={field.queryKey ?? ''}
-                      {...field}
+                      queryFn={
+                        field.queryFn as () => Promise<GetResponse<unknown>>
+                      }
+                      queryParams={field.queryParams}
+                      mapOption={field.mapOption}
                     />
                   );
                 default:
