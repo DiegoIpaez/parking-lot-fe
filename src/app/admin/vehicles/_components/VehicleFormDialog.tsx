@@ -71,7 +71,10 @@ export default function VehicleFormDialog({
   }, [open, defaultValues, form]);
 
   useEffect(() => {
-    if (selectedBrandId && selectedBrandId !== (defaultValues.vehicleBrandId || 0)) {
+    if (
+      selectedBrandId &&
+      selectedBrandId !== (defaultValues.vehicleBrandId || 0)
+    ) {
       form.setValue('vehicleModelId', 0);
     }
   }, [selectedBrandId, defaultValues.vehicleBrandId, form]);
