@@ -37,6 +37,7 @@ export type VehicleModel = PrismaModel & {
   vehicleBrandId: number;
   vehicleType?: VehicleType;
   vehicleBrand?: VehicleBrand;
+  deleted: boolean;
 };
 
 export type Vehicle = PrismaModel & {
@@ -44,6 +45,7 @@ export type Vehicle = PrismaModel & {
   color: string;
   vehicleModelId: number;
   vehicleModel?: VehicleModel;
+  deleted: boolean;
 };
 
 export type Sector = PrismaModel & {
@@ -106,3 +108,5 @@ export type CreateVehicleRequest = Pick<
   Vehicle,
   'licensePlate' | 'vehicleModelId' | 'color'
 >;
+
+export type UpdateVehicleRequest = Partial<CreateVehicleRequest>;
